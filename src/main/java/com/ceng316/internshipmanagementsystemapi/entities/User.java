@@ -4,10 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-
+ @Data
 public abstract class User {
     @Id
-    int userID;
+    Long id;
     String name;
     String email;
     String password;

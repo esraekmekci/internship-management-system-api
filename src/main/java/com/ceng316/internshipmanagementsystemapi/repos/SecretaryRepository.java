@@ -1,5 +1,8 @@
 package com.ceng316.internshipmanagementsystemapi.repos;
-public class SecretaryRepository {
-    void save() {}
-    void findAll() {}
+
+import com.ceng316.internshipmanagementsystemapi.entities.Secretary;
+import com.ceng316.internshipmanagementsystemapi.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SecretaryRepository extends JpaRepository<User, Long>, UserRepository {
 }
