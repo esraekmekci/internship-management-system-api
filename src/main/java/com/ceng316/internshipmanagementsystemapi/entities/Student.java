@@ -12,4 +12,10 @@ public class Student extends User {
     @Id
     int studentID;
     String grade;
+    String internshipStatus; // can this be boolean or enum?
+    Document applicationLetter;
+    Document applicationForm;
+    Document companyForm;
+    Document internshipReport;
+    Document sgkDocument;
 }
