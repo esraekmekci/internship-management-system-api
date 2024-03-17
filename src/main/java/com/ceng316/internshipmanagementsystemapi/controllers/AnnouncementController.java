@@ -1,4 +1,5 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
+import com.ceng316.internshipmanagementsystemapi.services.AnnouncementService;
 import com.ceng316.internshipmanagementsystemapi.services.DocumentService;
 
 import org.springframework.core.io.Resource;
@@ -6,7 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 public class AnnouncementController {
-    DocumentService documentService;
+    AnnouncementService announcementService;
     ResponseEntity<Resource> downloadDocument(String documentName) {
         return null;
 //            // Var olan Word belgesinin yolu

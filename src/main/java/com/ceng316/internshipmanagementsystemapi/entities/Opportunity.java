@@ -2,8 +2,11 @@ package com.ceng316.internshipmanagementsystemapi.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+
+import java.sql.Date;
 
 @Entity
 @Data
@@ -12,7 +15,9 @@ public class Opportunity {
 
     @Id
     int id;
-    String name;
     String status; // enum olabilir mi
-    String type; // enum olabilir mi
+    Date uploadDate;
+
+    @OneToOne(mappedBy = "opportunities")
+    CompanyRep companyRep;
 }
