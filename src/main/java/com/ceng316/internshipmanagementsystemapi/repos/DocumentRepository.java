@@ -1,7 +1,11 @@
 package com.ceng316.internshipmanagementsystemapi.repos;
 
-public class DocumentRepository {
-    void findAllByStatusAndType() {}
-    void save() {}
-    void findAll() {}
+import com.ceng316.internshipmanagementsystemapi.entities.Document;
+import com.ceng316.internshipmanagementsystemapi.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface DocumentRepository extends JpaRepository<Document, Long> {
+    List<Document> findAllByStatusAndType();
 }
