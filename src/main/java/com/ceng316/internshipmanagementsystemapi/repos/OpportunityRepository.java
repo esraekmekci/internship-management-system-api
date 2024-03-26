@@ -5,5 +5,7 @@ import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import java.util.List;
 
 public interface OpportunityRepository extends JpaRepository<Document, Long> {
+
+    List<Document> findAllOpportunities();
     List<Document> findAllByStatusAndType();
 }
