@@ -22,4 +22,5 @@ public class StudentController {
     CompanyRep getCompanyRep(Long id) {
         return null;
     }
+    Document getInternshipReport() {return null};
 }

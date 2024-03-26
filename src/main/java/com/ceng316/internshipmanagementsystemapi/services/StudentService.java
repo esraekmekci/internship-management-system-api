@@ -45,4 +45,5 @@ public class StudentService {
     SGKCertificate getSGKCertificate() {
         return null;
     }
+    Document getInternshipReport() {return null};
 }
