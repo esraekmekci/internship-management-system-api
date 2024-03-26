@@ -11,6 +11,6 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<User, Long>, UserRepository {
     List<CompanyRep> findAppliedCompanies();
     CompanyRep findCompanyRep(Long id);
-
     SGKCertificate findSGKCertificate(Long id);
+
 }

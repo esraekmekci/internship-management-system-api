@@ -1,8 +1,11 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
+import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.repos.CoordinatorRepository;
+
+import javax.print.Doc;
 
 public class CoordinatorService {
     CoordinatorRepository coordinatorRepo;
@@ -12,4 +15,5 @@ public class CoordinatorService {
     void getPendingDocuments() {}
     void announceGuidelines(Document doc) {}
     void rejectDocument(Document doc) {}
+    void notifyCoordinator(Coordinator coordinator, Document document) {}
 }
