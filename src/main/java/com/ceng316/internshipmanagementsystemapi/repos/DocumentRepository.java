@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findAllByStatusAndType();
+    void uploadDocument(Document document);
 }

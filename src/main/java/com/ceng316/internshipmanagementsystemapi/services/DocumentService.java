@@ -10,7 +10,6 @@ public class DocumentService {
     void updateDocument(Document document) {}
     void downloadDocument() {}
     void uploadDocument(Document document) {}
-
     void notifyCompanyRep() {}
     void notifyStudent() {}
     void notifyCoordinator() {}
