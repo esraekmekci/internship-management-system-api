@@ -12,28 +12,40 @@ public class StudentService {
     StudentRepository studentRepo;
     SGKService sgkService;
     DocumentService documentService;
+
     List<Student> getAllStudents() {
         return null;
     }
+
     Student getStudent(Long id) {
         return null;
     }
 
-    void createStudent(Student student) {}
-    void uploadDocument(Document doc) {}
-    void downloadDocument(Document doc) {}
+    void createStudent(Student student) {
+    }
+
+    void uploadDocument(Document doc) {
+    }
+
+    void downloadDocument(Document doc) {
+    }
+
     void addApplicationLetter(Document doc) {
         //change internshipStatus here
     }
+
     void addApplicationForm(Document doc) {
         //change internshipStatus here
     }
+
     void addInternshipReport(Document doc) {
         //change internshipStatus here
     }
+
     boolean verifyCredentials() {
         return false;
     }
+
     List<CompanyRep> getAppliedCompanies() {
         return null;
     }
@@ -45,5 +57,8 @@ public class StudentService {
     SGKCertificate getSGKCertificate() {
         return null;
     }
-    Document getInternshipReport() { return null; }
+
+    Document getInternshipReport() {
+        return null;
+    }
 }

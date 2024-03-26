@@ -9,9 +9,16 @@ import java.util.List;
 
 public class StudentController {
     StudentService studentService;
-    void getAllStudents() {}
-    void getStudent(Long id) {}
-    void createStudent() {}
+
+    void getAllStudents() {
+    }
+
+    void getStudent(Long id) {
+    }
+
+    void createStudent() {
+    }
+
     List<CompanyRep> getAppliedCompanies() {
         return null;
     }
@@ -19,8 +26,14 @@ public class StudentController {
     SGKCertificate getSGKCertificate(Long id) {
         return null;
     }
+
     CompanyRep getCompanyRep(Long id) {
         return null;
     }
-    Document getInternshipReport() {return null};
+
+    Document getInternshipReport() {
+        return null
+    }
+
+    ;
 }

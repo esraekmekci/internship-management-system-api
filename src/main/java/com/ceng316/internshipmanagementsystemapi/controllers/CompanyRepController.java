@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CompanyRepController {
     CompanyRepService representativeService;
+
     List<CompanyRep> getAllCompanyReps() {
         return null;
     }
@@ -15,11 +16,25 @@ public class CompanyRepController {
     CompanyRep getCompanyRep(Long id) {
         return null;
     }
-    void enterOpportunity(Document doc) {}
-    void deleteOpportunity(Document doc) {}
-    void approveDocument(Document doc) {}
-    void rejectDocument(Document doc) {}
-    void uploadDocument(Document doc) {}
-    void downloadDocument(Document doc) {}
-    void getPendingDocuments() {}
+
+    void enterOpportunity(Document doc) {
+    }
+
+    void deleteOpportunity(Document doc) {
+    }
+
+    void approveDocument(Document doc) {
+    }
+
+    void rejectDocument(Document doc) {
+    }
+
+    void uploadDocument(Document doc) {
+    }
+
+    void downloadDocument(Document doc) {
+    }
+
+    void getPendingDocuments() {
+    }
 }

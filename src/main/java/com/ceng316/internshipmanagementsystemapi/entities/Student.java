@@ -3,8 +3,6 @@ package com.ceng316.internshipmanagementsystemapi.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
-
 import java.util.List;
 
 @Data

@@ -17,10 +17,22 @@ public class CompanyRepService {
     CompanyRep getCompanyRep(Long id) {
         return null;
     }
-    void getPendingDocuments() {}
-    void uploadDocument(Document doc) {}
-    void rejectDocument(Document doc) {}
-    void approveDocument(Document doc) {}
-    void deleteAnnouncement(Document doc) {}
-    void enterAnnouncement(Document doc) {}
+
+    void getPendingDocuments() {
+    }
+
+    void uploadDocument(Document doc) {
+    }
+
+    void rejectDocument(Document doc) {
+    }
+
+    void approveDocument(Document doc) {
+    }
+
+    void deleteAnnouncement(Document doc) {
+    }
+
+    void enterAnnouncement(Document doc) {
+    }
 }

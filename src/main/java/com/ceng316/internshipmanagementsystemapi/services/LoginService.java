@@ -13,12 +13,22 @@ public class LoginService {
     StudentRepository studentRepo;
     SecretaryRepository secretaryRepo;
 
-    void authUser() {}
-    void loginAsStudent(String email, String password) {}
-    void loginAsCoordinator(String email, String password) {}
-    void loginAsSecretary(String email, String password) {}
-    void loginAsCompanyRep(String email, String password) {}
+    void authUser() {
+    }
 
-    void createUser(){}
+    void loginAsStudent(String email, String password) {
+    }
+
+    void loginAsCoordinator(String email, String password) {
+    }
+
+    void loginAsSecretary(String email, String password) {
+    }
+
+    void loginAsCompanyRep(String email, String password) {
+    }
+
+    void createUser() {
+    }
 
 }

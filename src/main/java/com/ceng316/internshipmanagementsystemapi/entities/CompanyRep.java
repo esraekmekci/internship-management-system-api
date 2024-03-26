@@ -11,12 +11,10 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "companyreps")
-public class CompanyRep extends User{
-    @Id
-    private Long id;
-
+public class CompanyRep extends User {
     String companyName;
-
     @OneToMany(mappedBy = "companyreps")
     List<Student> studentList;
+    @Id
+    private Long id;
 }
