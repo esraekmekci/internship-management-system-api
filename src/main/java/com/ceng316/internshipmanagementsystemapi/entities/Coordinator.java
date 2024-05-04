@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "coordinators")
-public class Coordinator extends User {
+public class Coordinator  {
     @Id
     private Long id;
 }

@@ -18,6 +18,6 @@ public class Opportunity {
     String status; // enum olabilir mi
     Date uploadDate;
 
-    @OneToOne(mappedBy = "opportunities")
+    @OneToOne
     CompanyRep companyRep;
 }

@@ -15,9 +15,9 @@ public class SGKCertificate {
     String name;
     String status;
 
-    @OneToOne(mappedBy = "sgk")
+    @OneToOne
     Student student;
 
-    @OneToOne(mappedBy = "sgk")
+    @OneToOne
     Secretary secretary;
 }

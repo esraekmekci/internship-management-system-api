@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "secretaries")
-public class Secretary extends User {
+public class Secretary {
     @Id
     private Long id;
 }

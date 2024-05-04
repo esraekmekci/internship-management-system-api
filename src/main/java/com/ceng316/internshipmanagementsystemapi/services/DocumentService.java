@@ -5,7 +5,7 @@ import com.ceng316.internshipmanagementsystemapi.repos.DocumentRepository;
 
 public class DocumentService {
     DocumentRepository documentRepo;
-    AmazonS3 s3Client;
+    //AmazonS3 s3Client;
 
     void changeStatus(Document document, String newStatus) {
     }

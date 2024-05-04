@@ -1,5 +1,6 @@
-package com.project.questapp.security;
+package com.ceng316.internshipmanagementsystemapi.security;
 
+import com.ceng316.internshipmanagementsystemapi.entities.Role;
 import com.ceng316.internshipmanagementsystemapi.entities.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,19 @@ public class JwtUserDetails implements UserDetails {
 
     public static JwtUserDetails create(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        authoritiesList.add(new SimpleGrantedAuthority("user"));
+        if (user.getRole().equals(Role.STUDENT)) {
+            authoritiesList.add(new SimpleGrantedAuthority("STUDENT"));
+        }
+        if (user.getRole().equals(Role.SECRETARY)) {
+            authoritiesList.add(new SimpleGrantedAuthority("SECRETARY"));
+        }
+        if (user.getRole().equals(Role.COORDINATOR)) {
+            authoritiesList.add(new SimpleGrantedAuthority("COORDINATOR"));
+        }
+        if (user.getRole().equals(Role.COMPANYREP)) {
+            authoritiesList.add(new SimpleGrantedAuthority("COMPANYREP"));
+        }
+        authoritiesList.add(new SimpleGrantedAuthority("USER"));
         return new JwtUserDetails(user.getId(), user.getName(), user.getPassword(), authoritiesList);
     }
 

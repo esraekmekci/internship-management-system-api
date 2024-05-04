@@ -32,7 +32,7 @@ public class StudentController {
     }
 
     Document getInternshipReport() {
-        return null
+        return null;
     }
 
     ;

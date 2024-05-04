@@ -1,6 +1,9 @@
 package com.ceng316.internshipmanagementsystemapi.security;
 
-import io.jsonwebtoken.*;
+import com.ceng316.internshipmanagementsystemapi.entities.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -10,18 +13,19 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${questapp.app.secret}")
+    @Value("${ims.app.secret}")
     private String APP_SECRET;
 
-    @Value("${questapp.expires.in}")
+    @Value("${ims.expires.in}")
     private long EXPIRES_IN;
 
     public String generateJwtToken(Authentication auth) {
-        com.project.questapp.security.JwtUserDetails userDetails = (com.project.questapp.security.JwtUserDetails) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
+        JwtUserDetails userDetails = JwtUserDetails.create(user);
         Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
         return Jwts.builder().setSubject(Long.toString(userDetails.getId()))
                 .setIssuedAt(new Date()).setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS512, APP_SECRET).compact();
+                .signWith(SignatureAlgorithm.HS256, APP_SECRET).compact();
     }
 
     public String generateJwtTokenByUserId(Long userId) {
@@ -40,15 +44,7 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
             return !isTokenExpired(token);
-        } catch (SignatureException e) {
-            return false;
-        } catch (MalformedJwtException e) {
-            return false;
-        } catch (ExpiredJwtException e) {
-            return false;
-        } catch (UnsupportedJwtException e) {
-            return false;
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return false;
         }
     }

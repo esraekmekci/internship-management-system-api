@@ -18,7 +18,7 @@ public class Announcement {
     String status;
     Date uploadDate;
 
-    @OneToOne(mappedBy = "announcements")
+    @OneToOne
     Coordinator coordinator;
 
 }

@@ -18,12 +18,12 @@ public class Document {
     String type; // enum olabilir mi
     Date uploadDate;
 
-    @OneToOne(mappedBy = "document")
+    @OneToOne
     Student student;
 
-    @OneToOne(mappedBy = "document")
+    @OneToOne
     CompanyRep company;
 
-    @OneToOne(mappedBy = "document")
+    @OneToOne
     Coordinator coordinator;
 }

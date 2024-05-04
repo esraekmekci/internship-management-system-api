@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "students")
-public class Student extends User {
+public class Student {
     @Id
     int studentID;
     String grade;
@@ -19,11 +19,11 @@ public class Student extends User {
 
     @OneToMany
     List<Document> applicationForms;
-    @OneToOne(mappedBy = "student")
+    @OneToOne
     Document companyForm;
-    @OneToOne(mappedBy = "student")
+    @OneToOne
     Document internshipReport;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne
     CompanyRep companyRep;
 }

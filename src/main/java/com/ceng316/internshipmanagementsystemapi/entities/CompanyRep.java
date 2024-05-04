@@ -11,9 +11,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "companyreps")
-public class CompanyRep extends User {
+public class CompanyRep {
     String companyName;
-    @OneToMany(mappedBy = "companyreps")
+    @OneToMany
     List<Student> studentList;
     @Id
     private Long id;

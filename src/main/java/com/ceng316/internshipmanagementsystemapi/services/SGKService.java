@@ -5,7 +5,7 @@ import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 
 public class SGKService {
     SGKRepository documentRepo;
-    AmazonS3 s3Client;
+    //AmazonS3 s3Client;
 
     void changeStatus(String newStatus) {
     }

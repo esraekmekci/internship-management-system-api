@@ -5,7 +5,7 @@ import com.ceng316.internshipmanagementsystemapi.repos.OpportunityRepository;
 public class OpportunityService {
     OpportunityRepository opportunityRepo;
     CoordinatorService coordinatorService;
-    AmazonS3 s3Client;
+    //AmazonS3 s3Client;
 
     void getAllOpportunities() {
     }
