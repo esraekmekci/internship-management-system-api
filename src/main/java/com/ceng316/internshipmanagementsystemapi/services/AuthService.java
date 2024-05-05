@@ -22,20 +22,25 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     public AuthResponse authenticate(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        User user = userRepository.findByEmail(request.getEmail());
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword());
-        String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-        return AuthResponse.builder()
-                .token(jwtToken)
-                .name(user.getName())
-                .authorities(user.getRole())
-                .id(user.getId().toString())
-                .build();
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            User user = userRepository.findByEmail(request.getEmail());
+            Authentication auth = new UsernamePasswordAuthenticationToken(user, user.getPassword());
+            String jwtToken = jwtTokenProvider.generateJwtToken(auth);
+            return AuthResponse.builder()
+                    .token(jwtToken)
+                    .name(user.getName())
+                    .authorities(user.getRole())
+                    .id(user.getId().toString())
+                    .build();
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public AuthResponse register(RegisterRequest request) {

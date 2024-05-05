@@ -2,6 +2,7 @@ package com.ceng316.internshipmanagementsystemapi.services;
 
 import com.ceng316.internshipmanagementsystemapi.entities.User;
 import com.ceng316.internshipmanagementsystemapi.repos.UserRepository;
+import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +11,11 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    JwtTokenProvider jwtTokenProvider;
+
+    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     public List<User> getAllUsers() {
@@ -22,16 +26,13 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
-
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User getUserByToken(String token) {
+        Long userId = jwtTokenProvider.getUserIdFromJwt(token);
+        return userRepository.findById(userId).orElse(null);
     }
 
 }

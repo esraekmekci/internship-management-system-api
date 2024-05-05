@@ -35,7 +35,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, APP_SECRET).compact();
     }
 
-    Long getUserIdFromJwt(String token) {
+    public Long getUserIdFromJwt(String token) {
         Claims claims = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token).getBody();
         return Long.parseLong(claims.getSubject());
     }
