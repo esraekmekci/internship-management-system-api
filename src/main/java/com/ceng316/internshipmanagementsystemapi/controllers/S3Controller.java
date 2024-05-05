@@ -1,5 +1,6 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.ceng316.internshipmanagementsystemapi.services.S3Service;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -35,9 +36,13 @@ public class S3Controller {
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        S3Object s3Object = s3Service.getFile(fileName);
+        InputStreamResource resource = new InputStreamResource(s3Object.getObjectContent());
+
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(s3Service.getFile(fileName).getObjectContent()));
+                .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
     }
 
     @GetMapping("/view/{fileName}")
