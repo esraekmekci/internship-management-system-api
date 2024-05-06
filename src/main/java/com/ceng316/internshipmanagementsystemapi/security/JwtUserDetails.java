@@ -30,20 +30,20 @@ public class JwtUserDetails implements UserDetails {
 
     public static JwtUserDetails create(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        if (user.getRole().equals(Role.STUDENT)) {
+        if (user.getRole().equals(Role.STUDENT.toString())) {
             authoritiesList.add(new SimpleGrantedAuthority("STUDENT"));
         }
-        if (user.getRole().equals(Role.SECRETARY)) {
+        if (user.getRole().equals(Role.SECRETARY.toString())) {
             authoritiesList.add(new SimpleGrantedAuthority("SECRETARY"));
         }
-        if (user.getRole().equals(Role.COORDINATOR)) {
+        if (user.getRole().equals(Role.COORDINATOR.toString())) {
             authoritiesList.add(new SimpleGrantedAuthority("COORDINATOR"));
         }
-        if (user.getRole().equals(Role.COMPANYREP)) {
-            authoritiesList.add(new SimpleGrantedAuthority("COMPANYREP"));
+        if (user.getRole().equals(Role.COMPANY.toString())) {
+            authoritiesList.add(new SimpleGrantedAuthority("COMPANY"));
         }
         authoritiesList.add(new SimpleGrantedAuthority("USER"));
-        return new JwtUserDetails(user.getId(), user.getName(), user.getPassword(), authoritiesList);
+        return new JwtUserDetails(user.getSubclassId(), user.getName(), user.getPassword(), authoritiesList);
     }
 
     @Override

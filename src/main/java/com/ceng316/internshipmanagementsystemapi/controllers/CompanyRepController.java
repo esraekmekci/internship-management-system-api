@@ -3,38 +3,29 @@ package com.ceng316.internshipmanagementsystemapi.controllers;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.services.CompanyRepService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/company")
 public class CompanyRepController {
-    CompanyRepService representativeService;
+    CompanyRepService companyRepService;
 
-    List<CompanyRep> getAllCompanyReps() {
-        return null;
+    public CompanyRepController(CompanyRepService companyRepService) {
+        this.companyRepService = companyRepService;
     }
 
-    CompanyRep getCompanyRep(Long id) {
-        return null;
+    @GetMapping
+    public List<CompanyRep> getAllCompanyReps() {
+        return companyRepService.getAllCompanyReps();
     }
 
-    void enterOpportunity(Document doc) {
-    }
-
-    void deleteOpportunity(Document doc) {
-    }
-
-    void approveDocument(Document doc) {
-    }
-
-    void rejectDocument(Document doc) {
-    }
-
-    void uploadDocument(Document doc) {
-    }
-
-    void downloadDocument(Document doc) {
-    }
-
-    void getPendingDocuments() {
+    @GetMapping("/{id}")
+    public CompanyRep getCompanyRep(@PathVariable Long id) {
+        return companyRepService.getCompanyRep(id);
     }
 }

@@ -3,36 +3,24 @@ package com.ceng316.internshipmanagementsystemapi.services;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CompanyRepService {
-    CompanyRepRepository representativeRepo;
-    DocumentService documentService;
+    CompanyRepRepository companyRepRepo;
 
-    List<CompanyRep> getAllCompanyReps() {
-        return null;
+    public CompanyRepService(CompanyRepRepository companyRepRepo) {
+        this.companyRepRepo = companyRepRepo;
     }
 
-    CompanyRep getCompanyRep(Long id) {
-        return null;
+    public List<CompanyRep> getAllCompanyReps() {
+        return companyRepRepo.findAll();
     }
 
-    void getPendingDocuments() {
+    public CompanyRep getCompanyRep(Long id) {
+        return companyRepRepo.findById(id).orElse(null);
     }
 
-    void uploadDocument(Document doc) {
-    }
-
-    void rejectDocument(Document doc) {
-    }
-
-    void approveDocument(Document doc) {
-    }
-
-    void deleteAnnouncement(Document doc) {
-    }
-
-    void enterAnnouncement(Document doc) {
-    }
 }

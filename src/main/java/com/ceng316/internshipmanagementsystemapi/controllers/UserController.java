@@ -2,39 +2,36 @@ package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import com.ceng316.internshipmanagementsystemapi.entities.User;
 import com.ceng316.internshipmanagementsystemapi.services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public List<User> getAllUsers(@RequestParam String role){
+        return userService.getAllUsers(role);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(Long id){
-        return userService.getUserById(id);
+    public User getUserById(@PathVariable Long id, @RequestParam String role){
+        return userService.getUserById(id,role);
     }
 
     @GetMapping("/email/{email}")
-    public User getUserByEmail(String email){
-        return userService.getUserByEmail(email);
+    public User getUserByEmail(@PathVariable String email, @RequestParam String role){
+        return userService.getUserByEmail(email,role);
     }
 
     @GetMapping("/token/{token}")
-    public User getUserByToken(@PathVariable String token){
-        return userService.getUserByToken(token);
+    public User getUserByToken(@PathVariable String token, @RequestParam String role){
+        return userService.getUserByToken(token, role);
     }
 }

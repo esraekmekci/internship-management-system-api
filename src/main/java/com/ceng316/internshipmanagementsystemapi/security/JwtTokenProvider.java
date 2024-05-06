@@ -1,6 +1,6 @@
 package com.ceng316.internshipmanagementsystemapi.security;
 
-import com.ceng316.internshipmanagementsystemapi.entities.User;
+import com.ceng316.internshipmanagementsystemapi.entities.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,6 +21,7 @@ public class JwtTokenProvider {
 
     public String generateJwtToken(Authentication auth) {
         User user = (User) auth.getPrincipal();
+        System.out.println("Principal class: " + user.getClass());
         JwtUserDetails userDetails = JwtUserDetails.create(user);
         Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
         return Jwts.builder().setSubject(Long.toString(userDetails.getId()))

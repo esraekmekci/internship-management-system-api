@@ -1,39 +1,49 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
-import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
-import com.ceng316.internshipmanagementsystemapi.entities.SGKCertificate;
+import com.ceng316.internshipmanagementsystemapi.entities.*;
 import com.ceng316.internshipmanagementsystemapi.services.StudentService;
+import com.ceng316.internshipmanagementsystemapi.services.UserService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/student")
 public class StudentController {
     StudentService studentService;
 
-    void getAllStudents() {
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    void getStudent(Long id) {
+    @GetMapping
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 
-    void createStudent() {
+    @GetMapping("/{studentId}")
+    public Student getStudent(@PathVariable Long studentId) {
+        return studentService.getStudent(studentId);
     }
 
-    List<CompanyRep> getAppliedCompanies() {
-        return null;
+    @GetMapping("/token/{token}")
+    public User getStudentByToken(@PathVariable String token){
+        return studentService.getStudentByToken(token);
     }
 
-    SGKCertificate getSGKCertificate(Long id) {
-        return null;
+    @PostMapping("/{studentId}/uploadApplicationLetter")
+    public void uploadApplicationLetter(@RequestParam MultipartFile file,
+                                        @RequestParam String companyName,
+                                        @PathVariable Long studentId) {
+        studentService.uploadApplicationLetter(file, companyName, studentId);
     }
 
-    CompanyRep getCompanyRep(Long id) {
-        return null;
+    @GetMapping("/{studentId}/downloadApplicationLetter")
+    public ResponseEntity<Resource> downloadApplicationLetter(@PathVariable Long studentId,
+                                                              @RequestParam String companyName) {
+        return studentService.downloadApplicationLetter(studentId, companyName);
     }
-
-    Document getInternshipReport() {
-        return null;
-    }
-
-    ;
 }

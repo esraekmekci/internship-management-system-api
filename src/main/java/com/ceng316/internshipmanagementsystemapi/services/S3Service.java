@@ -1,6 +1,9 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +26,10 @@ public class S3Service {
     }
 
     public void uploadFile(String keyName, MultipartFile file) throws IOException {
-        var putObjectResult = s3client.putObject(bucketName, keyName, file.getInputStream(), null);
-        log.info(putObjectResult.getMetadata());
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
+        PutObjectResult putObjectResult = s3client.putObject(bucketName, keyName, file.getInputStream(), metadata);
     }
 
     public S3Object getFile(String keyName) {

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -21,6 +23,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
+        if (loginRequest.getRole().equals("STUDENT")){
+            return ResponseEntity.ok(authService.authenticateStudent(loginRequest));
+        }
         return ResponseEntity.ok(authService.authenticate(loginRequest));
     }
 

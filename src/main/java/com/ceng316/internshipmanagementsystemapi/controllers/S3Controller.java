@@ -29,29 +29,43 @@ public class S3Controller {
     }
 
     @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        s3Service.uploadFile(file.getOriginalFilename(), file);
-        return "File uploaded";
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam String fileName) throws IOException {
+        try {
+            if (fileName == null || fileName.isBlank()) {
+                s3Service.uploadFile(file.getOriginalFilename(), file);
+            }
+            else {
+                s3Service.uploadFile(fileName, file);
+            }
+            return "File uploaded";
+        }
+        catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        S3Object s3Object = s3Service.getFile(fileName);
-        InputStreamResource resource = new InputStreamResource(s3Object.getObjectContent());
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                .body(resource);
+        try {
+            S3Object s3Object = s3Service.getFile(fileName);
+            InputStreamResource resource = new InputStreamResource(s3Object.getObjectContent());
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .body(resource);
+        }
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/view/{fileName}")
     public ResponseEntity<InputStreamResource> viewFile(@PathVariable String fileName) {
-        var s3Object = s3Service.getFile(fileName);
-        var content = s3Object.getObjectContent();
+        S3Object s3Object = s3Service.getFile(fileName);
+        InputStreamResource resource = new InputStreamResource(s3Object.getObjectContent());
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(MediaType.parseMediaType(s3Object.getObjectMetadata().getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\""+fileName+"\"")
-                .body(new InputStreamResource(content));
+                .body(resource);
     }
 }

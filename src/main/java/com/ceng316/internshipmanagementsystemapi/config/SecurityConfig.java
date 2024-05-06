@@ -70,16 +70,15 @@ public class SecurityConfig {
                     request.requestMatchers("/auth/**").permitAll();
                     request.requestMatchers("/users/**").permitAll();
                     request.requestMatchers("/api/v1/**").permitAll();
-                    request.requestMatchers("/document/**")
-                            .hasAnyAuthority("USER");
-                    request.requestMatchers("/student/**")
-                            .hasAnyAuthority("STUDENT");
-                    request.requestMatchers("/secretary/**")
+                    request.requestMatchers("/student/**").permitAll();
+//                            .hasAnyAuthority("STUDENT");
+                    request.requestMatchers("/ubys/students/**").permitAll();
+                    request.requestMatchers("/secretaries/**")
                             .hasAnyAuthority("SECRETARY");
                     request.requestMatchers("/coordinator/**")
                             .hasAnyAuthority("COORDINATOR");
-                    request.requestMatchers("/companyrep/**")
-                            .hasAnyAuthority("COMPANYREP");
+                    request.requestMatchers("/company/**").permitAll();
+//                            .hasAnyAuthority("COMPANY");
                     request.requestMatchers("/*").authenticated();
                 }).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).build();
 
