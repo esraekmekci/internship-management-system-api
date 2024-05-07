@@ -21,7 +21,6 @@ public class JwtTokenProvider {
 
     public String generateJwtToken(Authentication auth) {
         User user = (User) auth.getPrincipal();
-        System.out.println("Principal class: " + user.getClass());
         JwtUserDetails userDetails = JwtUserDetails.create(user);
         Date expireDate = new Date(new Date().getTime() + EXPIRES_IN);
         return Jwts.builder().setSubject(Long.toString(userDetails.getId()))
