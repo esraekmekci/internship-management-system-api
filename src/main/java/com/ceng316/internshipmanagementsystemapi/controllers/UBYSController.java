@@ -23,13 +23,18 @@ public class UBYSController {
 
     @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable Long studentId) {
-        RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject(UBYS_API + studentId.toString(), String.class);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String response = restTemplate.getForObject(UBYS_API + studentId.toString(), String.class);
 
-        Gson gson = new Gson();
-        Student student = gson.fromJson(response, Student.class);
-        student.setRole("STUDENT");
-        return student;
+            Gson gson = new Gson();
+            Student student = gson.fromJson(response, Student.class);
+            student.setRole("STUDENT");
+            return student;
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
 }
