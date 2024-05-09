@@ -28,7 +28,6 @@ public class AuthService {
 
     public AuthResponse authenticateStudent(LoginRequest request) {
         try {
-            System.out.println(request.getPassword());
 
 //            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 //                            request.getEmail(), //student id
@@ -36,6 +35,9 @@ public class AuthService {
 //                    )
 //            );
             Student std = UBYSController.getStudent(Long.parseLong(request.getEmail()));
+            if (!std.getPassword().equals(request.getPassword())){
+                return null;
+            }
             Student student = null;
             if (studentRepository.findById(std.getStudentID()).isEmpty()){
                 student = studentRepository.save(std);
@@ -43,11 +45,9 @@ public class AuthService {
             else {
                 student = studentRepository.findById(std.getStudentID()).get();
             }
-            System.out.println(student);
             if (student != null){
                 Authentication auth = new UsernamePasswordAuthenticationToken(student, student.getPassword());
                 String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-                System.out.println(jwtToken);
                 return AuthResponse.builder()
                         .token(jwtToken)
                         .name(student.getName())

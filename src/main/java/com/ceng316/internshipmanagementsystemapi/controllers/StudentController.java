@@ -35,10 +35,16 @@ public class StudentController {
     }
 
     @PostMapping("/{studentId}/uploadApplicationLetter")
-    public void uploadApplicationLetter(@RequestParam MultipartFile file,
+    public String uploadApplicationLetter(@RequestParam MultipartFile file,
                                         @RequestParam String companyName,
                                         @PathVariable Long studentId) {
-        studentService.uploadApplicationLetter(file, companyName, studentId);
+        try {
+            studentService.uploadApplicationLetter(file, companyName, studentId);
+            return "File uploaded";
+        }
+        catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
     }
 
     @GetMapping("/{studentId}/downloadApplicationLetter")
