@@ -1,34 +1,36 @@
 package com.ceng316.internshipmanagementsystemapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "students")
 public class Student extends User {
+    @Builder(builderMethodName = "studentBuilder")
+    public Student(Long studentID, String name, String email, String password, String role, String grade, String internshipStatus) {
+        super(name, email, password, role);
+        this.studentID = studentID;
+        this.grade = grade;
+        this.internshipStatus = internshipStatus;
+    }
+
     @Id
-    int studentID;
+    Long studentID;
+
     String grade;
+
     String internshipStatus; // can this be boolean or enum?
 
-    @OneToMany(mappedBy = "student")
-    List<Document> applicationLetter;
-
-    @OneToOne(mappedBy = "student")
-    Document applicationForm;
-    @OneToOne(mappedBy = "student")
-    Document companyForm;
-    @OneToOne(mappedBy = "student")
-    Document internshipReport;
-    @OneToOne(mappedBy = "student")
-    Document sgkDocument;
+    @Override
+    public Long getSubclassId() {
+        return studentID;
+    }
 }

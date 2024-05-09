@@ -1,18 +1,16 @@
-package com.project.questapp.security;
+package com.ceng316.internshipmanagementsystemapi.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.ceng316.internshipmanagementsystemapi.entities.Role;
+import com.ceng316.internshipmanagementsystemapi.entities.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ceng316.internshipmanagementsystemapi.entities.User;
-
-
-import lombok.Getter;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,8 +30,20 @@ public class JwtUserDetails implements UserDetails {
 
     public static JwtUserDetails create(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        authoritiesList.add(new SimpleGrantedAuthority("user"));
-        return new JwtUserDetails(user.getId(), user.getName(), user.getPassword(), authoritiesList);
+        if (user.getRole().equals(Role.STUDENT.toString())) {
+            authoritiesList.add(new SimpleGrantedAuthority("STUDENT"));
+        }
+        if (user.getRole().equals(Role.SECRETARY.toString())) {
+            authoritiesList.add(new SimpleGrantedAuthority("SECRETARY"));
+        }
+        if (user.getRole().equals(Role.COORDINATOR.toString())) {
+            authoritiesList.add(new SimpleGrantedAuthority("COORDINATOR"));
+        }
+        if (user.getRole().equals(Role.COMPANY.toString())) {
+            authoritiesList.add(new SimpleGrantedAuthority("COMPANY"));
+        }
+        authoritiesList.add(new SimpleGrantedAuthority("USER"));
+        return new JwtUserDetails(user.getSubclassId(), user.getName(), user.getPassword(), authoritiesList);
     }
 
     @Override

@@ -4,7 +4,13 @@ import com.ceng316.internshipmanagementsystemapi.services.SecretaryService;
 
 public class SecretaryController {
     SecretaryService secretaryService;
-    void downloadStudentList() {}
-    void uploadSgkCertificate() {}
-    void deleteSgkCertificate() {}
+
+    void downloadStudentList() {
+    }
+
+    void uploadSgkCertificate() {
+    }
+
+    void deleteSgkCertificate() {
+    }
 }

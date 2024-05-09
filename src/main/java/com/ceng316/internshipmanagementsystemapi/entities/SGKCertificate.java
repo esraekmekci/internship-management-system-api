@@ -2,6 +2,7 @@ package com.ceng316.internshipmanagementsystemapi.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -12,6 +13,11 @@ public class SGKCertificate {
     @Id
     int id;
     String name;
-    String status; // enum olabilir mi
-    String type; // enum olabilir mi
+    String status;
+
+    @OneToOne
+    Student student;
+
+    @OneToOne
+    Secretary secretary;
 }

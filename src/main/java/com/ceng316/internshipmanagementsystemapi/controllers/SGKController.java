@@ -1,12 +1,12 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
-import com.ceng316.internshipmanagementsystemapi.services.DocumentService;
 
+import com.ceng316.internshipmanagementsystemapi.services.SGKService;
 import org.springframework.core.io.Resource;
-
 import org.springframework.http.ResponseEntity;
 
 public class SGKController {
-    DocumentService documentService;
+    SGKService sgkService;
+
     ResponseEntity<Resource> downloadDocument(String documentName) {
         return null;
 //            // Var olan Word belgesinin yolu
@@ -42,7 +42,11 @@ public class SGKController {
 //                return ResponseEntity.status(500).build();
 //            }
     }
-    void updateDocument(String documentName) {}
-    void changeStatus(String newStatus) {}
+
+    void updateDocument(String documentName) {
+    }
+
+    void changeStatus(String newStatus) {
+    }
 
 }
