@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CompanyRepRepository extends JpaRepository<CompanyRep, Long> {
     CompanyRep findByEmail(String email);
 
+    CompanyRep findByCompanyName(String name);
+
 }
