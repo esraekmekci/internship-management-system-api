@@ -1,9 +1,6 @@
 package com.ceng316.internshipmanagementsystemapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
@@ -18,7 +15,7 @@ public class Announcement {
     String status;
     Date uploadDate;
 
-    @OneToOne
-    Coordinator coordinator;
+    @ManyToOne
+    CompanyRep companyRep;
 
 }

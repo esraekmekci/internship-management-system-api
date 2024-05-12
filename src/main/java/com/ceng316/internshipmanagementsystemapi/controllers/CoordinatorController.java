@@ -3,6 +3,11 @@ package com.ceng316.internshipmanagementsystemapi.controllers;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/coordinator")
 
 public class CoordinatorController {
     CoordinatorService coordinatorService;

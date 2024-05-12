@@ -70,6 +70,7 @@ public class SecurityConfig {
                     request.requestMatchers("/auth/**").permitAll();
                     request.requestMatchers("/users/**").permitAll();
                     request.requestMatchers("/api/v1/**").permitAll();
+                    request.requestMatchers("/announcement/**").permitAll();
                     request.requestMatchers("/student/**").permitAll();
 //                            .hasAnyAuthority("STUDENT");
                     request.requestMatchers("/ubys/students/**").permitAll();
