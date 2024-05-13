@@ -25,8 +25,6 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         if (loginRequest.getRole().equals("STUDENT")){
             return ResponseEntity.ok(authService.authenticateStudent(loginRequest));
-        } else if (loginRequest.getRole().equals("SECRETARY")) {
-            return ResponseEntity.ok(authService.authenticate(loginRequest));
         }
         return ResponseEntity.ok(authService.authenticate(loginRequest));
     }

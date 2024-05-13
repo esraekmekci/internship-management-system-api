@@ -64,13 +64,13 @@ public class AuthService {
     }
     public AuthResponse authenticate(LoginRequest request) {
         try {
-            /* This part is commented out because it gives an exception
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()
                     )
             );
-            */
+
             User user = switch (request.getRole()) {
                 case "STUDENT" -> studentRepository.findByEmail(request.getEmail());
                 case "COMPANY" -> companyRepRepository.findByEmail(request.getEmail());
