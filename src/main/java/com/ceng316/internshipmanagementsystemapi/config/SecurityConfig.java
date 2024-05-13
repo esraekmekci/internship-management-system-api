@@ -73,7 +73,7 @@ public class SecurityConfig {
                     request.requestMatchers("/student/**").permitAll();
 //                            .hasAnyAuthority("STUDENT");
                     request.requestMatchers("/ubys/students/**").permitAll();
-                    request.requestMatchers("/secretaries/**")
+                    request.requestMatchers("/secretary/**")
                             .hasAnyAuthority("SECRETARY");
                     request.requestMatchers("/coordinator/**")
                             .hasAnyAuthority("COORDINATOR");
