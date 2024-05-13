@@ -19,13 +19,15 @@ import java.util.List;
 @Service
 public class StudentService {
     StudentRepository studentRepo;
+    CompanyRepService companyService;
     S3Controller s3Controller;
     JwtTokenProvider jwtTokenProvider;
 
-    public StudentService(StudentRepository studentRepo, S3Controller s3Controller, JwtTokenProvider jwtTokenProvider) {
+    public StudentService(StudentRepository studentRepo, S3Controller s3Controller, JwtTokenProvider jwtTokenProvider, CompanyRepService companyService) {
         this.studentRepo = studentRepo;
         this.s3Controller = s3Controller;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.companyService = companyService;
     }
 
     public List<Student> getAllStudents() {
@@ -41,10 +43,17 @@ public class StudentService {
         return studentRepo.findById(userId).orElse(null);
     }
 
+    public List<CompanyRep> getAppliedCompanies(Long studentId) {
+        return getStudent(studentId).getAppliedCompanies();
+    }
+
     public void uploadApplicationLetter(MultipartFile file, String companyName, Long studentId) {
         try {
             String fileName = "1_TR_SummerPracticeApplicationLetter2023_" + companyName + "_" + studentId + ".docx";
             s3Controller.uploadFile(file, fileName);
+            getStudent(studentId).getAppliedCompanies().add(companyService.getCompanyByName(companyName));
+            studentRepo.save(getStudent(studentId));
+            System.out.println(getStudent(studentId).getAppliedCompanies());
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

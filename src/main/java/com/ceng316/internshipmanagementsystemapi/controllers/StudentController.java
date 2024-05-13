@@ -34,6 +34,11 @@ public class StudentController {
         return studentService.getStudentByToken(token);
     }
 
+    @GetMapping("/{studentId}/appliedcompanies")
+    public List<CompanyRep> getAppliedCompanies(@PathVariable Long studentId) {
+        return studentService.getAppliedCompanies(studentId);
+    }
+
     @PostMapping("/{studentId}/uploadApplicationLetter")
     public String uploadApplicationLetter(@RequestParam MultipartFile file,
                                         @RequestParam String companyName,

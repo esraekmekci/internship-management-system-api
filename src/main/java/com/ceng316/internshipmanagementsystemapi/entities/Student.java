@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -27,7 +29,14 @@ public class Student extends User {
 
     String grade;
 
-    String internshipStatus; // can this be boolean or enum?
+    String internshipStatus;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "student_applications",
+            joinColumns = @JoinColumn(name = "studentid"),
+            inverseJoinColumns = @JoinColumn(name = "companyid"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    List<CompanyRep> appliedCompanies;
 
     @Override
     public Long getSubclassId() {
