@@ -23,4 +23,8 @@ public class CompanyRepService {
         return companyRepRepo.findById(id).orElse(null);
     }
 
+    public CompanyRep getCompanyByName(String name) {
+        return companyRepRepo.findByCompanyName(name);
+    }
+
 }

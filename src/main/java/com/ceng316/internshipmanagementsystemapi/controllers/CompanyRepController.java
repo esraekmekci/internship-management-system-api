@@ -28,4 +28,9 @@ public class CompanyRepController {
     public CompanyRep getCompanyRep(@PathVariable Long id) {
         return companyRepService.getCompanyRep(id);
     }
+
+    @GetMapping("/name/{name}")
+    public CompanyRep getCompanyByName(@PathVariable String name) {
+        return companyRepService.getCompanyByName(name);
+    }
 }

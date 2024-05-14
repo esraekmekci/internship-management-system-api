@@ -18,7 +18,7 @@ public class CompanyRep extends User {
     @Builder(builderMethodName = "companyRepBuilder")
     public CompanyRep(Long id, String name, String email, String password, String role, String companyName, String companyAddress, String foundationYear, String employeeSize, String internshipType) {
         super(name, email, password, role);
-        this.id = id;
+        this.companyid = id;
         this.companyName = companyName;
         this.companyAddress = companyAddress;
         this.foundationYear = foundationYear;
@@ -28,7 +28,7 @@ public class CompanyRep extends User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long companyid;
 
     String companyName;
     String companyAddress;
@@ -36,12 +36,8 @@ public class CompanyRep extends User {
     String employeeSize;
     String internshipType;
 
-
-//    @OneToMany
-//    List<Student> studentList;
-
     @Override
     public Long getSubclassId() {
-        return id;
+        return companyid;
     }
 }
