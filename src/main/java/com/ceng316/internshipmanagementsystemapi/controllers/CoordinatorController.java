@@ -14,19 +14,20 @@ public class CoordinatorController {
 
     public CoordinatorController(CoordinatorService coordinatorService) {this.coordinatorService = coordinatorService;}
 
-    public void approveAnnouncement(Announcement announcement){
-        coordinatorService.approveAnnouncement(announcement);
+    @PutMapping("/coordinator/approveAnnouncement")
+    public void approveAnnouncement(@RequestParam Long announcementId){
+        coordinatorService.approveAnnouncement(announcementId);
     }
 
-    public void rejectAnnouncement(Announcement announcement){
-        coordinatorService.rejectAnnouncement(announcement);
+    @PutMapping("/coordinator/rejectAnnouncement")
+    public void rejectAnnouncement(@RequestParam Long announcementId){
+        coordinatorService.rejectAnnouncement(announcementId);
     }
 
     @PostMapping("/coordinator/uploadGuidelines")
-    public String uploadGuidelines(@RequestParam MultipartFile file,
-                                          @PathVariable Long documentId) {
+    public String uploadGuidelines(@RequestParam MultipartFile file) {
         try {
-            coordinatorService.uploadGuidelines(file, documentId);
+            coordinatorService.uploadGuidelines(file);
             return "File uploaded";
         }
         catch (Exception e) {

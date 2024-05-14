@@ -27,13 +27,13 @@ public class AnnouncementService {
         List<Announcement>  announcements = announcementRepo.findAll();
         List<AnnouncementWithCompanyResponse> announcementWithCompanyResponse = new ArrayList<>();
         for (Announcement announcement : announcements) {
-            CompanyRep rep = companyRepService.getCompanyRep(announcement.getCompanyRep().getId());
+            CompanyRep rep = companyRepService.getCompanyRep(announcement.getCompanyRep().getCompanyid());
             AnnouncementWithCompanyResponse ac = new AnnouncementWithCompanyResponse();
             ac.setRep_name(rep.getName());
             ac.setAnnouncement_id(announcement.getId());
             ac.setDate(announcement.getUploadDate());
             ac.setComp_name(rep.getCompanyName());
-            ac.setRep_id(rep.getId());
+            ac.setRep_id(rep.getCompanyid());
             ac.setStatus(announcement.getStatus());
             announcementWithCompanyResponse.add(ac);
         }
@@ -43,6 +43,10 @@ public class AnnouncementService {
 
     public List<Announcement> getByStatus(String status) {
         return announcementRepo.findByStatus(status);
+    }
+
+    public Announcement getById(Long id) {
+        return announcementRepo.findById(id).orElse(null);
     }
 
     void changeStatus(Announcement announcement,String newStatus) {

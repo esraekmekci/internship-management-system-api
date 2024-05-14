@@ -12,24 +12,26 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class CoordinatorService {
     CoordinatorRepository coordinatorRepo;
+    AnnouncementService announcementService;
     S3Controller s3Controller;
 
-    public CoordinatorService(CoordinatorRepository coordinatorRepo, S3Controller s3Controller) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepo, S3Controller s3Controller, AnnouncementService announcementService) {
         this.coordinatorRepo = coordinatorRepo;
         this.s3Controller = s3Controller;
+        this.announcementService = announcementService;
     }
 
-    public void approveAnnouncement(Announcement announcement){
-        announcement.setStatus("approved");
+    public void approveAnnouncement(Long announcementId){
+        announcementService.getById(announcementId).setStatus("approved");
     }
 
-    public void rejectAnnouncement(Announcement announcement){
-        announcement.setStatus("rejected");
+    public void rejectAnnouncement(Long announcementId){
+        announcementService.getById(announcementId).setStatus("rejected");
     }
 
-    public void uploadGuidelines(MultipartFile file, Long documentId) {
+    public void uploadGuidelines(MultipartFile file) {
         try {
-            String fileName = "SummerPracticeGuidelines_" + documentId + ".docx";
+            String fileName = "SummerPracticeGuidelines.docx";
             s3Controller.uploadFile(file, fileName);
         }
         catch (Exception e) {
