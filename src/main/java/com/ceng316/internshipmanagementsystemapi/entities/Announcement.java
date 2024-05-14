@@ -11,7 +11,7 @@ import java.sql.Date;
 public class Announcement {
 
     @Id
-    int id;
+    Long id;
     String status;
     Date uploadDate;
 
