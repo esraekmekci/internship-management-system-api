@@ -35,6 +35,8 @@ public class AnnouncementService {
             ac.setComp_name(rep.getCompanyName());
             ac.setRep_id(rep.getCompanyid());
             ac.setStatus(announcement.getStatus());
+            ac.setTitle(announcement.getTitle());
+            ac.setDescription(announcement.getDescription());
             announcementWithCompanyResponse.add(ac);
         }
 

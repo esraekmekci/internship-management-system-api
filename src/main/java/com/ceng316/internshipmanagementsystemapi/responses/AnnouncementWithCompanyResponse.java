@@ -16,6 +16,8 @@ public class AnnouncementWithCompanyResponse {
     private String comp_name;
     private Long announcement_id;
     private Long rep_id;
+    private String title;
+    private String description;
     private String status;
     private Date date;
 }

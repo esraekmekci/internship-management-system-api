@@ -6,6 +6,7 @@ import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.repos.CoordinatorRepository;
+import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,11 +15,18 @@ public class CoordinatorService {
     CoordinatorRepository coordinatorRepo;
     AnnouncementService announcementService;
     S3Controller s3Controller;
+    JwtTokenProvider jwtTokenProvider;
 
-    public CoordinatorService(CoordinatorRepository coordinatorRepo, S3Controller s3Controller, AnnouncementService announcementService) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepo, S3Controller s3Controller, AnnouncementService announcementService, JwtTokenProvider jwtTokenProvider) {
         this.coordinatorRepo = coordinatorRepo;
         this.s3Controller = s3Controller;
         this.announcementService = announcementService;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    public Coordinator getCoordinatorByToken(String token){
+        Long userId = jwtTokenProvider.getUserIdFromJwt(token);
+        return coordinatorRepo.findById(userId).orElse(null);
     }
 
     public void approveAnnouncement(Long announcementId){

@@ -1,6 +1,7 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
+import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
 import com.ceng316.internshipmanagementsystemapi.entities.Document;
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
@@ -14,6 +15,10 @@ public class CoordinatorController {
 
     public CoordinatorController(CoordinatorService coordinatorService) {this.coordinatorService = coordinatorService;}
 
+    @GetMapping("/token/{token}")
+    public Coordinator getCoordinatorByToken(@PathVariable String token){
+        return coordinatorService.getCoordinatorByToken(token);
+    }
     @PutMapping("/coordinator/approveAnnouncement")
     public void approveAnnouncement(@RequestParam Long announcementId){
         coordinatorService.approveAnnouncement(announcementId);
