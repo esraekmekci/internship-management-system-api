@@ -1,9 +1,12 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
+import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
+import com.ceng316.internshipmanagementsystemapi.repos.AnnouncementRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.ApplicationRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
+import com.ceng316.internshipmanagementsystemapi.requests.AnnouncementRequest;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.springframework.stereotype.Service;
@@ -17,11 +20,13 @@ public class CompanyRepService {
     CompanyRepRepository companyRepRepo;
     JwtTokenProvider jwtTokenProvider;
     ApplicationRepository applicationRepo;
+    AnnouncementRepository announcementRepo;
 
-    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo) {
+    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo, AnnouncementRepository announcementRepo) {
         this.companyRepRepo = companyRepRepo;
         this.jwtTokenProvider = jwtTokenProvider;
         this.applicationRepo = applicationRepo;
+        this.announcementRepo = announcementRepo;
     }
 
     public List<CompanyRep> getAllCompanyReps() {
@@ -103,6 +108,42 @@ public class CompanyRepService {
             }
             application.setApplicationStatus("Application Letter Rejected");
             applicationRepo.save(application);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    public void makeAnnouncement(Long companyId, AnnouncementRequest announcement) {
+        try {
+            CompanyRep companyRep = companyRepRepo.findById(companyId).orElse(null);
+            assert companyRep != null;
+            Announcement newAnnouncement = new Announcement();
+            newAnnouncement.setCompanyRep(companyRep);
+            newAnnouncement.setTitle(announcement.getTitle());
+            newAnnouncement.setDescription(announcement.getDescription());
+            newAnnouncement.setStatus("pending");
+            newAnnouncement.setUploadDate(new java.sql.Date(System.currentTimeMillis()));
+
+            announcementRepo.save(newAnnouncement);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    public List<Announcement> getAnnouncements(Long companyId) {
+        return announcementRepo.findByCompanyId(companyId);
+    }
+
+    public void deleteAnnouncement(Long companyId, Long announcementId) {
+        try {
+            Announcement announcement = announcementRepo.findById(announcementId).orElse(null);
+            assert announcement != null;
+            if (!Objects.equals(announcement.getCompanyRep().getCompanyid(), companyId)) {
+                throw new RuntimeException("Announcement does not belong to this company");
+            }
+            announcementRepo.delete(announcement);
         }
         catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());

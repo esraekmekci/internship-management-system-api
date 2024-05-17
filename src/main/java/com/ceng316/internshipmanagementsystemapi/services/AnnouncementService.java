@@ -53,9 +53,4 @@ public class AnnouncementService {
         announcement.setStatus(newStatus);
     }
 
-    void updateDocument() {
-    }
-
-    void downloadDocument() {
-    }
 }
