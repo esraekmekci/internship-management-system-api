@@ -19,17 +19,18 @@ public class CoordinatorController {
     public Coordinator getCoordinatorByToken(@PathVariable String token){
         return coordinatorService.getCoordinatorByToken(token);
     }
-    @PutMapping("/coordinator/approveAnnouncement")
+    @PutMapping("/approveAnnouncement")
     public void approveAnnouncement(@RequestParam Long announcementId){
+        System.out.println(announcementId);
         coordinatorService.approveAnnouncement(announcementId);
     }
 
-    @PutMapping("/coordinator/rejectAnnouncement")
+    @PutMapping("/rejectAnnouncement")
     public void rejectAnnouncement(@RequestParam Long announcementId){
         coordinatorService.rejectAnnouncement(announcementId);
     }
 
-    @PostMapping("/coordinator/uploadGuidelines")
+    @PostMapping("/uploadGuidelines")
     public String uploadGuidelines(@RequestParam MultipartFile file) {
         try {
             coordinatorService.uploadGuidelines(file);

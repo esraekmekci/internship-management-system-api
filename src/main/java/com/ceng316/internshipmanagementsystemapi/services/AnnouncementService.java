@@ -51,8 +51,5 @@ public class AnnouncementService {
         return announcementRepo.findById(id).orElse(null);
     }
 
-    void changeStatus(Announcement announcement,String newStatus) {
-        announcement.setStatus(newStatus);
-    }
 
 }
