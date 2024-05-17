@@ -64,7 +64,6 @@ public class AuthService {
     }
     public AuthResponse authenticate(LoginRequest request) {
         try {
-
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()
@@ -122,11 +121,12 @@ public class AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(request.getRole())
-                    .companyName(null)
-                    .companyAddress(null)
-                    .foundationYear(null)
-                    .employeeSize(null)
+                    .companyName(request.getCompName())
+                    .companyAddress(request.getCompAddress())
+                    .foundationYear(request.getFoundationYear())
+                    .employeeSize(request.getEmpSize())
                     .internshipType(null)
+                    .accountStatus("PENDING")
                     .build();
             user = companyRepRepository.save(companyRep);
         } else if (request.getRole().equalsIgnoreCase("secretary")) {

@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+    // this is only for companies
+    private String compName;
+    private String compAddress;
+    private String foundationYear;
+    private String empSize;
     private String email;
     private String name;
     private String password;

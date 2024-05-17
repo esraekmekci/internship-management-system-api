@@ -1,6 +1,7 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import com.ceng316.internshipmanagementsystemapi.entities.*;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationResponse;
 import com.ceng316.internshipmanagementsystemapi.services.StudentService;
 import com.ceng316.internshipmanagementsystemapi.services.UserService;
 import org.springframework.core.io.Resource;
@@ -35,20 +36,25 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/appliedcompanies")
-    public List<CompanyRep> getAppliedCompanies(@PathVariable Long studentId) {
+    public List<ApplicationResponse> getAppliedCompanies(@PathVariable Long studentId) {
         return studentService.getAppliedCompanies(studentId);
+    }
+
+    @GetMapping("/{studentId}/isApplied")
+    public boolean isApplied(@PathVariable Long studentId, @RequestParam String companyName) {
+        return studentService.isApplied(studentId, companyName);
     }
 
     @PostMapping("/{studentId}/uploadApplicationLetter")
     public String uploadApplicationLetter(@RequestParam MultipartFile file,
                                         @RequestParam String companyName,
-                                        @PathVariable Long studentId) {
+                                        @PathVariable Long studentId) throws Exception {
         try {
             studentService.uploadApplicationLetter(file, companyName, studentId);
             return "File uploaded";
         }
         catch (Exception e) {
-            return "Error: " + e.getMessage();
+            throw new Exception("Error: " + e.getMessage());
         }
     }
 
