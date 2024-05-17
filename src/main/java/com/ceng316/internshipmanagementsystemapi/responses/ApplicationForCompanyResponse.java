@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationResponse {
+public class ApplicationForCompanyResponse {
     private Long applicationId;
-    private String companyName;
+    private Long studentId;
+    private String studentName;
     private String applicationStatus;
 }

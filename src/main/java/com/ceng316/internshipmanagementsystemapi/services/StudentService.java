@@ -4,13 +4,11 @@ import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
 import com.ceng316.internshipmanagementsystemapi.entities.*;
 import com.ceng316.internshipmanagementsystemapi.repos.ApplicationRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.StudentRepository;
-import com.ceng316.internshipmanagementsystemapi.responses.ApplicationResponse;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForStudentResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -45,11 +43,11 @@ public class StudentService {
         return studentRepo.findById(userId).orElse(null);
     }
 
-    public List<ApplicationResponse> getAppliedCompanies(Long studentId) {
+    public List<ApplicationForStudentResponse> getAppliedCompanies(Long studentId) {
         List<Application> applications =  applicationRepo.findByStudentId(studentId);
-        List<ApplicationResponse> applicationResponses = new ArrayList<>();
+        List<ApplicationForStudentResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
-            ApplicationResponse applicationResponse = new ApplicationResponse();
+            ApplicationForStudentResponse applicationResponse = new ApplicationForStudentResponse();
             applicationResponse.setCompanyName(application.getCompany().getCompanyName());
             applicationResponse.setApplicationStatus(application.getApplicationStatus());
             applicationResponse.setApplicationId(application.getId());
@@ -58,7 +56,7 @@ public class StudentService {
         return applicationResponses;
     }
 
-    public boolean isApplied(Long studentId, String companyName) {
+    private boolean isApplied(Long studentId, String companyName) {
         Application application = applicationRepo.findByStudentIdAndCompanyId(studentId, companyName);
         return ! (application == null);
     }
@@ -69,7 +67,7 @@ public class StudentService {
                 throw new Exception("Student has already applied to this company");
             }
             else {
-                String fileName = "1_TR_SummerPracticeApplicationLetter2023_" + companyName + "_" + studentId + ".docx";
+                String fileName = "SummerPracticeApplicationLetter2023_" + companyName + "_" + studentId;
                 Application application = new Application();
                 application.setStudent(getStudent(studentId));
                 application.setCompany(companyService.getCompanyByName(companyName));
@@ -88,7 +86,7 @@ public class StudentService {
 
     public ResponseEntity<Resource> downloadApplicationLetter(Long studentId, String companyName) {
         try {
-            String fileName = "1_TR_SummerPracticeApplicationLetter2023_" + companyName + "_" + studentId + ".docx";
+            String fileName = "SummerPracticeApplicationLetter2023_" + companyName + "_" + studentId;
             return s3Controller.downloadFile(fileName);
         }
         catch (Exception e) {
@@ -97,4 +95,29 @@ public class StudentService {
         }
     }
 
+    public void uploadApplicationForm(MultipartFile file, String companyName, Long studentId) throws Exception {
+        try {
+            String fileName = "SummerPracticeApplicationForm2023_" + companyName + "_" + studentId;
+
+            Application application = applicationRepo.findByStudentIdAndCompanyId(studentId, companyName);
+            application.setApplicationStatus("Application Form Pending for Company Edit");
+            applicationRepo.save(application);
+
+            s3Controller.uploadFile(file, fileName);
+        }
+        catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Resource> downloadApplicationForm(Long studentId, String companyName) {
+        try {
+            String fileName = "SummerPracticeApplicationForm2023_" + companyName + "_" + studentId;
+            return s3Controller.downloadFile(fileName);
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
 }

@@ -1,12 +1,11 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
+
+import com.ceng316.internshipmanagementsystemapi.entities.User;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.services.CompanyRepService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,15 @@ public class CompanyRepController {
     public List<CompanyRep> getAllCompanyReps() {
         return companyRepService.getAllCompanyReps();
     }
+    @GetMapping("/approved")
+    public List<CompanyRep> getAllApprovedCompanyReps() {
+        return companyRepService.getAllApprovedCompanyReps();
+    }
+
+    @GetMapping("/token/{token}")
+    public User getCompanyRepByToken(@PathVariable String token){
+        return companyRepService.getCompanyRepByToken(token);
+    }
 
     @GetMapping("/{id}")
     public CompanyRep getCompanyRep(@PathVariable Long id) {
@@ -32,5 +40,25 @@ public class CompanyRepController {
     @GetMapping("/name/{name}")
     public CompanyRep getCompanyByName(@PathVariable String name) {
         return companyRepService.getCompanyByName(name);
+    }
+
+    @GetMapping("/{companyId}/applicants")
+    public List<ApplicationForCompanyResponse> getAppliedStudents(@PathVariable Long companyId) {
+        return companyRepService.getAppliedStudents(companyId);
+    }
+
+    @GetMapping("/{companyId}/interns")
+    public List<ApplicationForCompanyResponse> getInterns(@PathVariable Long companyId) {
+        return companyRepService.getInterns(companyId);
+    }
+
+    @PutMapping("/{companyId}/approveApplicationLetter")
+    public void approveApplicationLetter(@PathVariable Long companyId, @RequestParam Long applicationId){
+        companyRepService.approveApplicationLetter(companyId, applicationId);
+    }
+
+    @PutMapping("/{companyId}/rejectApplicationLetter")
+    public void rejectApplicationLetter(@PathVariable Long companyId, @RequestParam Long applicationId){
+        companyRepService.rejectApplicationLetter(companyId, applicationId);
     }
 }

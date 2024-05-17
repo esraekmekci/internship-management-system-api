@@ -72,7 +72,15 @@ public class AuthService {
 
             User user = switch (request.getRole()) {
                 case "STUDENT" -> studentRepository.findByEmail(request.getEmail());
-                case "COMPANY" -> companyRepRepository.findByEmail(request.getEmail());
+                case "COMPANY" -> {
+                    CompanyRep companyRep = companyRepRepository.findByEmail(request.getEmail());
+                    if (companyRep != null && companyRep.getAccountStatus().equals("APPROVED")) {
+                        yield companyRep;
+                    }
+                    else {
+                        yield null;
+                    }
+                }
                 case "COORDINATOR" -> coordinatorRepository.findByEmail(request.getEmail());
                 case "SECRETARY" -> secretaryRepository.findByEmail(request.getEmail());
                 default -> null;

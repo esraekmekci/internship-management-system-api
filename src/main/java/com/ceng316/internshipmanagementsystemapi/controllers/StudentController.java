@@ -1,9 +1,8 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import com.ceng316.internshipmanagementsystemapi.entities.*;
-import com.ceng316.internshipmanagementsystemapi.responses.ApplicationResponse;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForStudentResponse;
 import com.ceng316.internshipmanagementsystemapi.services.StudentService;
-import com.ceng316.internshipmanagementsystemapi.services.UserService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,13 +35,8 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/appliedcompanies")
-    public List<ApplicationResponse> getAppliedCompanies(@PathVariable Long studentId) {
+    public List<ApplicationForStudentResponse> getAppliedCompanies(@PathVariable Long studentId) {
         return studentService.getAppliedCompanies(studentId);
-    }
-
-    @GetMapping("/{studentId}/isApplied")
-    public boolean isApplied(@PathVariable Long studentId, @RequestParam String companyName) {
-        return studentService.isApplied(studentId, companyName);
     }
 
     @PostMapping("/{studentId}/uploadApplicationLetter")
@@ -62,5 +56,24 @@ public class StudentController {
     public ResponseEntity<Resource> downloadApplicationLetter(@PathVariable Long studentId,
                                                               @RequestParam String companyName) {
         return studentService.downloadApplicationLetter(studentId, companyName);
+    }
+
+    @PostMapping("/{studentId}/uploadApplicationForm")
+    public String uploadApplicationForm(@RequestParam MultipartFile file,
+                                        @RequestParam String companyName,
+                                        @PathVariable Long studentId) throws Exception {
+        try {
+            studentService.uploadApplicationForm(file, companyName, studentId);
+            return "File uploaded";
+        }
+        catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{studentId}/downloadApplicationForm")
+    public ResponseEntity<Resource> downloadApplicationForm(@PathVariable Long studentId,
+                                                              @RequestParam String companyName) {
+        return studentService.downloadApplicationForm(studentId, companyName);
     }
 }
