@@ -16,9 +16,19 @@ public class CoordinatorController {
     public Coordinator getCoordinatorByToken(@PathVariable String token){
         return coordinatorService.getCoordinatorByToken(token);
     }
+
+    @PutMapping("/approveCompanyAccount")
+    public void approveCompanyAccount(@RequestParam Long companyId){
+        coordinatorService.approveCompanyAccount(companyId);
+    }
+
+    @PutMapping("/rejectCompanyAccount")
+    public void rejectCompanyAccount(@RequestParam Long companyId){
+        coordinatorService.rejectCompanyAccount(companyId);
+    }
+
     @PutMapping("/approveAnnouncement")
     public void approveAnnouncement(@RequestParam Long announcementId){
-        System.out.println(announcementId);
         coordinatorService.approveAnnouncement(announcementId);
     }
 

@@ -37,6 +37,11 @@ public class CompanyRepService {
         return companyRepRepo.findByAccountStatus("APPROVED");
     }
 
+    public List<CompanyRep> getAllPendingCompanyReps() {
+        return companyRepRepo.findByAccountStatus("PENDING");
+    }
+
+
     public CompanyRep getCompanyRep(Long id) {
         return companyRepRepo.findById(id).orElse(null);
     }

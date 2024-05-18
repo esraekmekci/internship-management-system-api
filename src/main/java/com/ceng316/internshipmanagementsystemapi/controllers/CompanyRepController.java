@@ -24,10 +24,15 @@ public class CompanyRepController {
     public List<CompanyRep> getAllCompanyReps() {
         return companyRepService.getAllCompanyReps();
     }
+
     @GetMapping("/approved")
     public List<CompanyRep> getAllApprovedCompanyReps() {
         return companyRepService.getAllApprovedCompanyReps();
     }
+
+    @GetMapping("/pending")
+    public List<CompanyRep> getAllPendingCompanyReps() {return companyRepService.getAllPendingCompanyReps(); }
+
 
     @GetMapping("/token/{token}")
     public User getCompanyRepByToken(@PathVariable String token){
