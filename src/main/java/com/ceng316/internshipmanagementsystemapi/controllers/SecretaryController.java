@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.services.SecretaryService;
-import com.ceng316.internshipmanagementsystemapi.services.StudentService;
 
 @RestController
 @RequestMapping("/secretary")
@@ -20,8 +19,8 @@ public class SecretaryController {
     }
 
     @GetMapping("/studentList")
-    public List<Student> getAllStudents() {
-        return secretaryService.getStudentList();
+    public List<Student> getEligibleStudents() {
+        return secretaryService.getEligibleStudentsList();
     }
 
 }
