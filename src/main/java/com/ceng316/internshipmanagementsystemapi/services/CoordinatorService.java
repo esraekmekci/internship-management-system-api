@@ -1,10 +1,7 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
 import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
-import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
-import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.repos.AnnouncementRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CoordinatorRepository;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
@@ -51,16 +48,5 @@ public class CoordinatorService {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
-    void approveDocument(Document doc) {
-    }
-
-    void getPendingDocuments() {
-    }
-
-    void rejectDocument(Document doc) {
-    }
-
-
 
 }

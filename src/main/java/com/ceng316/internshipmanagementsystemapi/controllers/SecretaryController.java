@@ -24,9 +24,4 @@ public class SecretaryController {
         return secretaryService.getStudentList();
     }
 
-    void uploadSgkCertificate() {
-    }
-
-    void deleteSgkCertificate() {
-    }
 }

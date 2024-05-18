@@ -1,9 +1,6 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
-import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
-import com.ceng316.internshipmanagementsystemapi.entities.Document;
-import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,15 +36,6 @@ public class CoordinatorController {
         catch (Exception e) {
             return "Error: " + e.getMessage();
         }
-    }
-
-    void approveDocument(Document doc) {
-    }
-
-    void rejectDocument(Document doc) {
-    }
-
-    void getPendingDocuments() {
     }
 
 }
