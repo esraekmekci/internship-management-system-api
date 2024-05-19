@@ -34,29 +34,18 @@ public class SecretaryController {
 
     @GetMapping("/studentList/download")
     public ResponseEntity<byte[]> downloadEligibleStudents() throws IOException {
-        System.out.println("Start of the method");
         List<Student> students = secretaryService.getEligibleStudentsList();
-        System.out.println("Students are fetched");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(outputStream);
-        System.out.println("Writer and outputstream is created");
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID", "Email", "Name", "Grade"))) {
-            System.out.println("Inside try");
             for (Student student : students) {
                 csvPrinter.printRecord(student.getStudentID(), student.getEmail(), student.getName(), student.getGrade());
             }
-            System.out.println("After for loop");
-        } catch (IOException e) {
-            System.out.println("Error while writing to csv");
-            System.out.println(e.getMessage());
         }
 
         HttpHeaders headers = new HttpHeaders();
-        System.out.println("Headers are created");
         headers.setContentDispositionFormData("attachment", "students.csv");
-        System.out.println("Content disposition is set");
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        System.out.println("Content type is set");
 
         return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());
     }
