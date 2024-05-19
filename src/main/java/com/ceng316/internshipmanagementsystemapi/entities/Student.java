@@ -19,11 +19,12 @@ import java.util.List;
 @Table(name = "students")
 public class Student extends User {
     @Builder(builderMethodName = "studentBuilder")
-    public Student(Long studentID, String name, String email, String password, String role, String grade, String internshipStatus) {
+    public Student(Long studentID, String name, String email, String password, String role, String grade, String internshipStatus, String nationality) {
         super(name, email, password, role);
         this.studentID = studentID;
         this.grade = grade;
         this.internshipStatus = internshipStatus;
+        this.nationality = nationality;
     }
 
     @Id
@@ -32,6 +33,8 @@ public class Student extends User {
     String grade;
 
     String internshipStatus;
+
+    String nationality;
 
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "student_applications",

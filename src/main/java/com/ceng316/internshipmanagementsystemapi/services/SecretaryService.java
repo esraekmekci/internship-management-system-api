@@ -17,9 +17,8 @@ public class SecretaryService {
         this.secretaryRepo = secretaryRepo;
         this.studentRepo = studentRepo;
     }
-
-    public List<Student> getStudentList() {
-        return studentRepo.findAll();
+    public List<Student> getEligibleStudentsList() {
+        return studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Approved", "TR");
     }
 
 }
