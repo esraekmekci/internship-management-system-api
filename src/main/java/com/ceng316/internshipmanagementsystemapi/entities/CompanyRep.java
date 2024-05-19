@@ -38,7 +38,7 @@ public class CompanyRep extends User {
     String foundationYear;
     String employeeSize;
     String internshipType;
-    String accountStatus;
+    String accountStatus; //PENDING/APPROVED/REJECTED (büyük harfle)
 
     @Override
     public Long getSubclassId() {
