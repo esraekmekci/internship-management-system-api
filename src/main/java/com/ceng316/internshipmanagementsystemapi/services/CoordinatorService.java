@@ -65,9 +65,8 @@ public class CoordinatorService {
         announcementRepository.save(announcementService.getById(announcementId));
     }
 
-    public void uploadGuidelines(MultipartFile file) {
+    public void uploadGuidelines(MultipartFile file, String fileName) {
         try {
-            String fileName = "SummerPracticeGuidelines.docx";
             s3Controller.uploadFile(file, fileName);
         }
         catch (Exception e) {

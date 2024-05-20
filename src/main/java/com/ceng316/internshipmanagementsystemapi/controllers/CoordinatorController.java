@@ -43,9 +43,9 @@ public class CoordinatorController {
     }
 
     @PostMapping("/uploadGuidelines")
-    public String uploadGuidelines(@RequestParam MultipartFile file) {
+    public String uploadGuidelines(@RequestParam MultipartFile file, @RequestParam String fileName) {
         try {
-            coordinatorService.uploadGuidelines(file);
+            coordinatorService.uploadGuidelines(file, fileName);
             return "File uploaded";
         }
         catch (Exception e) {
