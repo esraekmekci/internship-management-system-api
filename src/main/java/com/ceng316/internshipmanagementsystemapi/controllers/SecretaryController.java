@@ -11,12 +11,11 @@ import org.apache.commons.csv.CSVPrinter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.services.SecretaryService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/secretary")
@@ -50,4 +49,14 @@ public class SecretaryController {
         return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());
     }
 
+    @PostMapping("/{studentId}/UploadSGK")
+    public String uploadSGK(@RequestParam MultipartFile file, @PathVariable Long studentId) throws Exception {
+        try {
+            secretaryService.uploadSGK(file, studentId);
+            return "File uploaded";
+        }
+        catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
+        }
+    }
 }

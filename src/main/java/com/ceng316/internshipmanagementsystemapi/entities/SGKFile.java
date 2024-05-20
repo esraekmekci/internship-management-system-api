@@ -21,12 +21,4 @@ public class SGKFile {
     @Column(nullable = false)
     private String sgkDocumentStatus;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "studentId")
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "secretaryId", nullable = false)
-    private Secretary secretary;
 }
