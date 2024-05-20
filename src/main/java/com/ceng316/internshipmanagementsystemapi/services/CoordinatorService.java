@@ -84,7 +84,7 @@ public class CoordinatorService {
     }
 
     public List<ApplicationForCoordinatorResponse> getStudents() {
-        List<Application> applications =  applicationRepository.findByApplicationStatus("Application Form Sent to Coordinator");
+        List<Application> applications =  applicationRepository.findAll();
         List<ApplicationForCoordinatorResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
             System.out.println(application.getApplicationStatus());
