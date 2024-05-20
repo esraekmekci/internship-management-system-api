@@ -76,4 +76,9 @@ public class StudentController {
                                                               @RequestParam String companyName) {
         return studentService.downloadApplicationForm(studentId, companyName);
     }
+
+    @GetMapping("/{studentId}/downloadSGKDocument")
+    public ResponseEntity<Resource> downloadSGKDocument(@PathVariable Long studentId) {
+        return studentService.downloadSGKDocument(studentId);
+    }
 }

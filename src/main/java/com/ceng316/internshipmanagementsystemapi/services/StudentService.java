@@ -100,7 +100,7 @@ public class StudentService {
             String fileName = "SummerPracticeApplicationForm2023_" + companyName + "_" + studentId;
 
             Application application = applicationRepo.findByStudentIdAndCompanyId(studentId, companyName);
-            application.setApplicationStatus("Application Form Pending for Company Edit");
+            application.setApplicationStatus("Application Form Sent to Company");
             applicationRepo.save(application);
 
             s3Controller.uploadFile(file, fileName);
@@ -113,6 +113,17 @@ public class StudentService {
     public ResponseEntity<Resource> downloadApplicationForm(Long studentId, String companyName) {
         try {
             String fileName = "SummerPracticeApplicationForm2023_" + companyName + "_" + studentId;
+            return s3Controller.downloadFile(fileName);
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public ResponseEntity<Resource> downloadSGKDocument(Long studentId) {
+        try {
+            String fileName = "SGK_Report_" + studentId;
             return s3Controller.downloadFile(fileName);
         }
         catch (Exception e) {

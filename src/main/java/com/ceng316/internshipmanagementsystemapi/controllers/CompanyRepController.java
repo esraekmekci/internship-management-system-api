@@ -7,7 +7,10 @@ import com.ceng316.internshipmanagementsystemapi.entities.User;
 import com.ceng316.internshipmanagementsystemapi.requests.AnnouncementRequest;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.services.CompanyRepService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,7 +63,7 @@ public class CompanyRepController {
     }
 
     @PutMapping("/{companyId}/approveApplicationLetter")
-    public void approveApplicationLetter(@PathVariable Long companyId, @RequestBody Long applicationId){
+    public void approveApplicationLetter(@PathVariable Long companyId, @RequestParam Long applicationId){
         companyRepService.approveApplicationLetter(companyId, applicationId);
     }
 
@@ -84,4 +87,27 @@ public class CompanyRepController {
         companyRepService.deleteAnnouncement(companyId, announcementId);
     }
 
+    @GetMapping("/{companyId}/downloadApplicationLetter")
+    public ResponseEntity<Resource> downloadApplicationLetter(@PathVariable Long companyId,
+                                                              @RequestParam Long studentId) {
+        return companyRepService.downloadApplicationLetter(studentId, companyId);
+    }
+    @GetMapping("/{companyId}/downloadApplicationForm")
+    public ResponseEntity<Resource> downloadApplicationForm(@PathVariable Long companyId,
+                                                              @RequestParam Long studentId) {
+        return companyRepService.downloadApplicationForm(companyId, studentId);
+    }
+
+    @PostMapping("/{companyId}/uploadApplicationForm")
+    public String downloadApplicationForm(@PathVariable Long companyId,
+                                                            @RequestParam Long studentId,
+                                                            @RequestParam MultipartFile file) throws Exception {
+        try {
+            companyRepService.uploadApplicationForm(file, companyId, studentId);
+            return "File uploaded";
+        }
+        catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
+        }
+    }
 }

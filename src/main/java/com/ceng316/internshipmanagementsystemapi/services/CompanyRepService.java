@@ -1,5 +1,7 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
+import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
+import com.ceng316.internshipmanagementsystemapi.controllers.StudentController;
 import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
@@ -11,7 +13,13 @@ import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import com.ceng316.internshipmanagementsystemapi.requests.AnnouncementRequest;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +31,21 @@ public class CompanyRepService {
     JwtTokenProvider jwtTokenProvider;
     ApplicationRepository applicationRepo;
     AnnouncementRepository announcementRepo;
+    StudentController studentController;
     SGKRepository sgkRepo;
+    S3Controller s3Controller;
 
-    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo, AnnouncementRepository announcementRepo, SGKRepository sgkRepo) {
+    @Autowired
+    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo, AnnouncementRepository announcementRepo, SGKRepository sgkRepo, @Lazy StudentController studentController, S3Controller s3Controller){
         this.companyRepRepo = companyRepRepo;
         this.jwtTokenProvider = jwtTokenProvider;
         this.applicationRepo = applicationRepo;
         this.announcementRepo = announcementRepo;
         this.sgkRepo = sgkRepo;
+        this.studentController = studentController;
+        this.s3Controller = s3Controller;
     }
+
 
     public List<CompanyRep> getAllCompanyReps() {
         return companyRepRepo.findAll();
@@ -103,10 +117,10 @@ public class CompanyRepService {
             application.setApplicationStatus("Application Letter Approved");
             applicationRepo.save(application);
             // burası aslında coordinator approve'layınca yapılmalı, orası yazılınca bu kısım oraya geçirilecek
-            if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
-                SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
-                sgkRepo.save(sgkFile);
-            }
+//            if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
+//                SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
+//                sgkRepo.save(sgkFile);
+//            }
         }
         catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
@@ -161,6 +175,35 @@ public class CompanyRepService {
         }
         catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    public ResponseEntity<Resource> downloadApplicationLetter(Long companyId, Long studentId) {
+        CompanyRep companyRep = companyRepRepo.findById(companyId).orElse(null);
+        assert companyRep != null;
+        return studentController.downloadApplicationLetter(studentId, companyRep.getCompanyName());
+    }
+
+    public ResponseEntity<Resource> downloadApplicationForm(Long companyId, Long studentId) {
+        CompanyRep companyRep = companyRepRepo.findById(companyId).orElse(null);
+        assert companyRep != null;
+        return studentController.downloadApplicationForm(studentId, companyRep.getCompanyName());
+    }
+
+    public void uploadApplicationForm(MultipartFile file, Long companyId, Long studentId) throws Exception {
+        try {
+            CompanyRep companyRep = companyRepRepo.findById(companyId).orElse(null);
+            assert companyRep != null;
+            String fileName = "SummerPracticeApplicationForm2023_" + companyRep.getCompanyName() + "_" + studentId + "_CompanyEdition";
+
+            Application application = applicationRepo.findByStudentIdAndCompanyId(studentId, companyRep.getCompanyName());
+            application.setApplicationStatus("Application Form Sent to Coordinator");
+            applicationRepo.save(application);
+
+            s3Controller.uploadFile(file, fileName);
+        }
+        catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
         }
     }
 }
