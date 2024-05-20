@@ -3,9 +3,11 @@ package com.ceng316.internshipmanagementsystemapi.services;
 import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
+import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
 import com.ceng316.internshipmanagementsystemapi.repos.AnnouncementRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.ApplicationRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
+import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import com.ceng316.internshipmanagementsystemapi.requests.AnnouncementRequest;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
@@ -21,12 +23,14 @@ public class CompanyRepService {
     JwtTokenProvider jwtTokenProvider;
     ApplicationRepository applicationRepo;
     AnnouncementRepository announcementRepo;
+    SGKRepository sgkRepo;
 
-    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo, AnnouncementRepository announcementRepo) {
+    public CompanyRepService(CompanyRepRepository companyRepRepo,JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo, AnnouncementRepository announcementRepo, SGKRepository sgkRepo) {
         this.companyRepRepo = companyRepRepo;
         this.jwtTokenProvider = jwtTokenProvider;
         this.applicationRepo = applicationRepo;
         this.announcementRepo = announcementRepo;
+        this.sgkRepo = sgkRepo;
     }
 
     public List<CompanyRep> getAllCompanyReps() {
@@ -98,6 +102,11 @@ public class CompanyRepService {
             }
             application.setApplicationStatus("Application Letter Approved");
             applicationRepo.save(application);
+            // burası aslında coordinator approve'layınca yapılmalı, orası yazılınca bu kısım oraya geçirilecek
+            if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
+                SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
+                sgkRepo.save(sgkFile);
+            }
         }
         catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
