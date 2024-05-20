@@ -49,7 +49,7 @@ public class SecretaryController {
         return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());
     }
 
-    @PostMapping("/{studentId}/UploadSGK")
+    @PostMapping("/{studentId}/uploadSGK")
     public String uploadSGK(@RequestParam MultipartFile file, @PathVariable Long studentId) throws Exception {
         try {
             secretaryService.uploadSGK(file, studentId);
@@ -57,6 +57,17 @@ public class SecretaryController {
         }
         catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{studentId}/deleteSGK")
+    public String deleteSGK(@PathVariable Long studentId) {
+        try {
+            secretaryService.deleteSGK(studentId);
+            return "File deleted";
+        }
+        catch (Exception e) {
+            return "Error: " + e.getMessage();
         }
     }
 }

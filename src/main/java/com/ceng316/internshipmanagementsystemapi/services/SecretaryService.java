@@ -3,7 +3,6 @@ package com.ceng316.internshipmanagementsystemapi.services;
 import java.util.List;
 
 import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
-import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
 import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,17 @@ public class SecretaryService {
         try {
             String fileName = "SGK_Report_" + studentId;
             s3Controller.uploadFile(file, fileName);
-            sgkRepo.updateSGKDocumentStatus(studentId, "Uploaded");
+            sgkRepo.updateSGKDocumentStatus(studentId, "Available");
+        } catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
+        }
+    }
+
+    public void deleteSGK(Long studentId) throws Exception {
+        try {
+            String fileName = "SGK_Report_" + studentId;
+            s3Controller.deleteFile(fileName);
+            sgkRepo.updateSGKDocumentStatus(studentId, "Unavailable");
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         }
