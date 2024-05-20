@@ -1,9 +1,14 @@
 package com.ceng316.internshipmanagementsystemapi.controllers;
 
+import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
+import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCoordinatorResponse;
 import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/coordinator")
@@ -47,5 +52,21 @@ public class CoordinatorController {
             return "Error: " + e.getMessage();
         }
     }
+
+    @GetMapping("/studentApplications")
+    public List<ApplicationForCoordinatorResponse> getAppliedStudents() {
+        return coordinatorService.getStudents();
+    }
+
+    @PutMapping("/approveApplicationForm")
+    public void approveApplicationLetter(@RequestBody Long applicationId){
+        coordinatorService.approveApplicationForm(applicationId);
+    }
+
+    @PutMapping("/rejectApplicationForm")
+    public void rejectApplicationLetter(@RequestParam Long applicationId){
+        coordinatorService.rejectApplicationForm(applicationId);
+    }
+
 
 }
