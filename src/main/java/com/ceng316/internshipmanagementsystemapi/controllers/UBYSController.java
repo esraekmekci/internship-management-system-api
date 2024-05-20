@@ -14,7 +14,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/ubys")
 public class UBYSController {
-    String UBYS_API = "https://internshipsystem.free.beeceptor.com/students";
+    String UBYS_API = "https://internshipsystem.free.beeceptor.com/students/";
     @GetMapping("/students")
     public String getAllStudents() {
         RestTemplate restTemplate = new RestTemplate();
