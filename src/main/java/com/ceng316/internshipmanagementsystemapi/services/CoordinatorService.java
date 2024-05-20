@@ -9,6 +9,8 @@ import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CoordinatorRepository;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCoordinatorResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,10 +75,20 @@ public class CoordinatorService {
         }
     }
 
+    public void deleteGuidelines(String fileName) {
+        try {
+            s3Controller.deleteFile(fileName);
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
     public List<ApplicationForCoordinatorResponse> getStudents() {
         List<Application> applications =  applicationRepository.findByApplicationStatus("Application Form Sent to Coordinator");
         List<ApplicationForCoordinatorResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
+            System.out.println(application.getApplicationStatus());
             ApplicationForCoordinatorResponse applicationResponse = new ApplicationForCoordinatorResponse();
 
             applicationResponse.setStudentName(application.getStudent().getName());
@@ -87,9 +99,12 @@ public class CoordinatorService {
             applicationResponse.setCompanyId(application.getCompany().getCompanyid());
 
             applicationResponses.add(applicationResponse);
+            System.out.println(applicationResponse.getStudentName());
         }
+
         return applicationResponses;
     }
+
 
     public void approveApplicationForm(Long applicationId) {
         try {

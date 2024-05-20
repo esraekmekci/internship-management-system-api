@@ -59,6 +59,20 @@ public class S3Controller {
         }
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteFile(@RequestParam String fileName) {
+        try {
+            if (fileName == null || fileName.isBlank()) {
+                return ResponseEntity.badRequest().body("File name must be provided");
+            }
+            s3Service.deleteFile(fileName);
+            return ResponseEntity.ok("File deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error deleting file: " + e.getMessage());
+        }
+    }
+
+
     @GetMapping("/view/{fileName}")
     public ResponseEntity<InputStreamResource> viewFile(@PathVariable String fileName) {
         S3Object s3Object = s3Service.getFile(fileName);

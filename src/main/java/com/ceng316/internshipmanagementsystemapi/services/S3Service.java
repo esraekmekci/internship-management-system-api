@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,11 @@ public class S3Service {
         metadata.setContentLength(file.getSize());
         PutObjectResult putObjectResult = s3client.putObject(bucketName, keyName, file.getInputStream(), metadata);
     }
+
+    public void deleteFile(String fileName) {
+        s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+    }
+
 
     public S3Object getFile(String keyName) {
         return s3client.getObject(bucketName, keyName);

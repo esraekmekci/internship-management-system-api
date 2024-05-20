@@ -53,13 +53,24 @@ public class CoordinatorController {
         }
     }
 
+    @DeleteMapping("/deleteGuidelines")
+    public String deleteGuidelines(@RequestParam String fileName) {
+        try {
+            coordinatorService.deleteGuidelines(fileName);
+            return "File deleted";
+        }
+        catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
     @GetMapping("/studentApplications")
     public List<ApplicationForCoordinatorResponse> getAppliedStudents() {
         return coordinatorService.getStudents();
     }
 
     @PutMapping("/approveApplicationForm")
-    public void approveApplicationLetter(@RequestBody Long applicationId){
+    public void approveApplicationLetter(@RequestParam Long applicationId){
         coordinatorService.approveApplicationForm(applicationId);
     }
 
