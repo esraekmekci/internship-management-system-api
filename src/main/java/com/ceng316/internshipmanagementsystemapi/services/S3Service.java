@@ -36,4 +36,8 @@ public class S3Service {
         return s3client.getObject(bucketName, keyName);
     }
 
+    public void deleteFile(String keyName) {
+        s3client.deleteObject(bucketName, keyName);
+    }
+    
 }
