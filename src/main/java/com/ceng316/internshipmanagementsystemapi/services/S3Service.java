@@ -33,11 +33,6 @@ public class S3Service {
         PutObjectResult putObjectResult = s3client.putObject(bucketName, keyName, file.getInputStream(), metadata);
     }
 
-    public void deleteFile(String fileName) {
-        s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
-    }
-
-
     public S3Object getFile(String keyName) {
         return s3client.getObject(bucketName, keyName);
     }
