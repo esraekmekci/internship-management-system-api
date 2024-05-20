@@ -19,6 +19,6 @@ public class SGKFile {
     private Long studentId;
 
     @Column(nullable = false)
-    private String sgkDocumentStatus;
+    private String sgkDocumentStatus; // Available, Unavailable
 
 }
