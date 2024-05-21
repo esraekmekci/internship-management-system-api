@@ -36,13 +36,6 @@ public class Student extends User {
 
     String nationality;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "student_applications",
-//            joinColumns = @JoinColumn(name = "studentid"),
-//            inverseJoinColumns = @JoinColumn(name = "companyid"))
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    List<CompanyRep> appliedCompanies;
-
 
     @Override
     public Long getSubclassId() {

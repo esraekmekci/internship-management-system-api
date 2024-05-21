@@ -90,7 +90,7 @@ public class CompanyRepController {
     @GetMapping("/{companyId}/downloadApplicationLetter")
     public ResponseEntity<Resource> downloadApplicationLetter(@PathVariable Long companyId,
                                                               @RequestParam Long studentId) {
-        return companyRepService.downloadApplicationLetter(studentId, companyId);
+        return companyRepService.downloadApplicationLetter(companyId, studentId);
     }
     @GetMapping("/{companyId}/downloadApplicationForm")
     public ResponseEntity<Resource> downloadApplicationForm(@PathVariable Long companyId,

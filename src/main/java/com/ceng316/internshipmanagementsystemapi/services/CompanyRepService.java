@@ -5,7 +5,6 @@ import com.ceng316.internshipmanagementsystemapi.controllers.StudentController;
 import com.ceng316.internshipmanagementsystemapi.entities.Announcement;
 import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.CompanyRep;
-import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
 import com.ceng316.internshipmanagementsystemapi.repos.AnnouncementRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.ApplicationRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
@@ -13,7 +12,6 @@ import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import com.ceng316.internshipmanagementsystemapi.requests.AnnouncementRequest;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.Resource;
@@ -77,7 +75,7 @@ public class CompanyRepService {
         List<Application> applications =  applicationRepo.findByCompanyId(companyId);
         List<ApplicationForCompanyResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
-            if (application.getApplicationStatus().equals("Application Letter Rejected")) {
+            if (!(application.getApplicationStatus().equals("Application Letter Pending") || application.getApplicationStatus().equals("Application Letter Approved"))) {
                 continue;
             }
             ApplicationForCompanyResponse applicationResponse = new ApplicationForCompanyResponse();
@@ -94,7 +92,7 @@ public class CompanyRepService {
         List<Application> applications =  applicationRepo.findByCompanyId(companyId);
         List<ApplicationForCompanyResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
-            if (application.getApplicationStatus().equals("Application Letter Rejected") || application.getApplicationStatus().equals("Application Letter Pending")) {
+            if (application.getApplicationStatus().equals("Application Letter Rejected") || application.getApplicationStatus().equals("Application Letter Pending") || application.getApplicationStatus().equals("Application Letter Approved")) {
                 continue;
             }
             ApplicationForCompanyResponse applicationResponse = new ApplicationForCompanyResponse();
@@ -189,7 +187,7 @@ public class CompanyRepService {
         try {
             CompanyRep companyRep = companyRepRepo.findById(companyId).orElse(null);
             assert companyRep != null;
-            String fileName = "SummerPracticeApplicationForm2023_" + companyRep.getCompanyName() + "_" + studentId + "_CompanyEdition";
+            String fileName = "SummerPracticeApplicationForm2023_" + companyRep.getCompanyName() + "_" + studentId;
 
             Application application = applicationRepo.findByStudentIdAndCompanyId(studentId, companyRep.getCompanyName());
             application.setApplicationStatus("Application Form Sent to Coordinator");
