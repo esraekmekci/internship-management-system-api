@@ -5,6 +5,7 @@ import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCompanyResponse;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCoordinatorResponse;
 import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
@@ -51,8 +52,8 @@ public class CoordinatorController {
     }
 
     @GetMapping("/downloadGuideline")
-    public void downloadGuideline() {
-        coordinatorService.downloadGuideline();
+    public ResponseEntity<Resource> downloadGuideline() {
+        return coordinatorService.downloadGuideline();
     }
 
     @PostMapping("/uploadGuidelines")

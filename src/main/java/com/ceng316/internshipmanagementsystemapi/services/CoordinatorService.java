@@ -14,6 +14,8 @@ import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import com.ceng316.internshipmanagementsystemapi.services.S3Service;
 
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,8 +81,8 @@ public class CoordinatorService {
     }
 
 
-    public void downloadGuideline() {
-        s3Controller.downloadFile("SummerPracticeGuidelines.pdf");
+    public ResponseEntity<Resource> downloadGuideline() {
+        return s3Controller.downloadFile("SummerPracticeGuidelines.pdf");
     }
 
 
