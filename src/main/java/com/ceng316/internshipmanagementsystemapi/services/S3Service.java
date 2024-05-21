@@ -40,5 +40,9 @@ public class S3Service {
     public void deleteFile(String keyName) {
         s3client.deleteObject(bucketName, keyName);
     }
+
+    public boolean checkFileExists(String fileName) {
+        return s3client.doesObjectExist(bucketName, fileName);
+    }
     
 }

@@ -79,4 +79,14 @@ public class S3Controller {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+    @GetMapping("/exists/{fileName}")
+    public ResponseEntity<String> checkFileExists(@PathVariable String fileName) {
+        boolean exists = s3Service.checkFileExists(fileName);
+        if (exists) {
+            return ResponseEntity.ok("File exists");
+        } else {
+            return ResponseEntity.ok("File does not exist");
+        }
+    }
 }

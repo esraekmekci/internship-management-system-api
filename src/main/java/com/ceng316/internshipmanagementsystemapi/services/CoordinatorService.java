@@ -11,9 +11,9 @@ import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCoordin
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
 import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
+import com.ceng316.internshipmanagementsystemapi.services.S3Service;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +30,12 @@ public class CoordinatorService {
     SGKRepository sgkRepo;
     AnnouncementService announcementService;
     CompanyRepService companyRepService;
+    S3Service s3Service;
     S3Controller s3Controller;
     JwtTokenProvider jwtTokenProvider;
 
-    public CoordinatorService(CoordinatorRepository coordinatorRepo, ApplicationRepository applicationRepository, SGKRepository sgkRepo, CompanyRepService companyRepService, S3Controller s3Controller, AnnouncementService announcementService, JwtTokenProvider jwtTokenProvider, AnnouncementRepository announcementRepository, CompanyRepRepository companyRepRepository) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepo, ApplicationRepository applicationRepository, SGKRepository sgkRepo, CompanyRepService companyRepService,
+                              S3Controller s3Controller, S3Service s3Service, AnnouncementService announcementService, JwtTokenProvider jwtTokenProvider, AnnouncementRepository announcementRepository, CompanyRepRepository companyRepRepository) {
         this.coordinatorRepo = coordinatorRepo;
         this.s3Controller = s3Controller;
         this.announcementService = announcementService;
@@ -43,6 +45,7 @@ public class CoordinatorService {
         this.companyRepRepository = companyRepRepository;
         this.applicationRepository = applicationRepository;
         this.sgkRepo = sgkRepo;
+        this.s3Service = s3Service;
     }
 
     public Coordinator getCoordinatorByToken(String token){
@@ -70,18 +73,29 @@ public class CoordinatorService {
         announcementRepository.save(announcementService.getById(announcementId));
     }
 
-    public void uploadGuidelines(MultipartFile file, String fileName) {
+
+    public boolean checkGuideline() {
+        return s3Service.checkFileExists("SummerPracticeGuidelines");
+    }
+
+
+    public void downloadGuideline() {
+        s3Controller.downloadFile("SummerPracticeGuidelines");
+    }
+
+
+    public void uploadGuidelines(MultipartFile file) {
         try {
-            s3Controller.uploadFile(file, fileName);
+            s3Controller.uploadFile(file, "SummerPracticeGuidelines");
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public void deleteGuidelines(String fileName) {
+    public void deleteGuidelines() {
         try {
-            s3Controller.deleteFile(fileName);
+            s3Controller.deleteFile("SummerPracticeGuidelines");
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -142,5 +156,7 @@ public class CoordinatorService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
+
+
 
 }

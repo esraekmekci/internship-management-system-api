@@ -42,10 +42,21 @@ public class CoordinatorController {
         coordinatorService.rejectAnnouncement(announcementId);
     }
 
+
+    @GetMapping("/checkGuideline")
+    public boolean checkGuideline() {
+        return coordinatorService.checkGuideline();
+    }
+
+    @GetMapping("/downloadGuideline")
+    public void downloadGuideline() {
+        coordinatorService.downloadGuideline();
+    }
+
     @PostMapping("/uploadGuidelines")
-    public String uploadGuidelines(@RequestParam MultipartFile file, @RequestParam String fileName) {
+    public String uploadGuidelines(@RequestParam MultipartFile file) {
         try {
-            coordinatorService.uploadGuidelines(file, fileName);
+            coordinatorService.uploadGuidelines(file);
             return "File uploaded";
         }
         catch (Exception e) {
@@ -54,9 +65,9 @@ public class CoordinatorController {
     }
 
     @DeleteMapping("/deleteGuidelines")
-    public String deleteGuidelines(@RequestParam String fileName) {
+    public String deleteGuidelines() {
         try {
-            coordinatorService.deleteGuidelines(fileName);
+            coordinatorService.deleteGuidelines();
             return "File deleted";
         }
         catch (Exception e) {
