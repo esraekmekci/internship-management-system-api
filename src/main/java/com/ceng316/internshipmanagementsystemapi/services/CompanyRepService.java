@@ -116,11 +116,6 @@ public class CompanyRepService {
             }
             application.setApplicationStatus("Application Letter Approved");
             applicationRepo.save(application);
-            // burası aslında coordinator approve'layınca yapılmalı, orası yazılınca bu kısım oraya geçirilecek
-//            if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
-//                SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
-//                sgkRepo.save(sgkFile);
-//            }
         }
         catch (Exception e) {
             throw new RuntimeException("Error: " + e.getMessage());
