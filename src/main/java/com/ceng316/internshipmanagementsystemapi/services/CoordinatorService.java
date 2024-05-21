@@ -9,6 +9,9 @@ import com.ceng316.internshipmanagementsystemapi.repos.CompanyRepRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.CoordinatorRepository;
 import com.ceng316.internshipmanagementsystemapi.responses.ApplicationForCoordinatorResponse;
 import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
+import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
+import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,12 +27,13 @@ public class CoordinatorService {
     private final CompanyRepRepository companyRepRepository;
     private final ApplicationRepository applicationRepository;
     CoordinatorRepository coordinatorRepo;
+    SGKRepository sgkRepo;
     AnnouncementService announcementService;
     CompanyRepService companyRepService;
     S3Controller s3Controller;
     JwtTokenProvider jwtTokenProvider;
 
-    public CoordinatorService(CoordinatorRepository coordinatorRepo, ApplicationRepository applicationRepository, CompanyRepService companyRepService, S3Controller s3Controller, AnnouncementService announcementService, JwtTokenProvider jwtTokenProvider, AnnouncementRepository announcementRepository, CompanyRepRepository companyRepRepository) {
+    public CoordinatorService(CoordinatorRepository coordinatorRepo, ApplicationRepository applicationRepository, SGKRepository sgkRepo, CompanyRepService companyRepService, S3Controller s3Controller, AnnouncementService announcementService, JwtTokenProvider jwtTokenProvider, AnnouncementRepository announcementRepository, CompanyRepRepository companyRepRepository) {
         this.coordinatorRepo = coordinatorRepo;
         this.s3Controller = s3Controller;
         this.announcementService = announcementService;
@@ -38,6 +42,7 @@ public class CoordinatorService {
         this.companyRepService = companyRepService;
         this.companyRepRepository = companyRepRepository;
         this.applicationRepository = applicationRepository;
+        this.sgkRepo = sgkRepo;
     }
 
     public Coordinator getCoordinatorByToken(String token){
@@ -101,6 +106,7 @@ public class CoordinatorService {
             System.out.println(applicationResponse.getStudentName());
         }
 
+
         return applicationResponses;
     }
 
@@ -110,6 +116,12 @@ public class CoordinatorService {
             Application application = applicationRepository.findById(applicationId).orElse(null);
             assert application != null;
             assert Objects.equals(application.getApplicationStatus(), "Application Form Sent to Coordinator");
+
+            if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
+                SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
+                sgkRepo.save(sgkFile);
+            }
+
             application.setApplicationStatus("Application Form Approved");
             applicationRepository.save(application);
         }
