@@ -1,14 +1,12 @@
 package com.ceng316.internshipmanagementsystemapi.services;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
-import com.ceng316.internshipmanagementsystemapi.controllers.SecretaryController;
 import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
 import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
 import org.apache.commons.csv.CSVFormat;
@@ -21,6 +19,8 @@ import org.springframework.stereotype.Service;
 import com.ceng316.internshipmanagementsystemapi.entities.Student;
 import com.ceng316.internshipmanagementsystemapi.repos.SecretaryRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.StudentRepository;
+import com.ceng316.internshipmanagementsystemapi.responses.StudentSGKResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -37,13 +37,20 @@ public class SecretaryService {
         this.s3Controller = s3Controller;
     }
     public List<Student> getEligibleStudentsList() {
-        List<Student> studentList = new ArrayList<>();
-        List<SGKFile> sgkFileList = sgkRepo.findAll();
-        for (SGKFile sgk:sgkFileList) {
-            studentList.add(studentRepo.findById(sgk.getStudentId()).orElse(null));
+        return studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Application Form Approved", "TR");
+    }
+
+    public List<StudentSGKResponse> getEligibleStudentsWithStatus() {
+        List<Student> studentList = studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Application Form Approved", "TR");
+        List<StudentSGKResponse> studentSGKResponseList = new ArrayList<>();
+        for (Student s : studentList) {
+            SGKFile file = sgkRepo.findByStudentId(s.getStudentID());
+            if (file != null) {
+                String status = file.getSgkDocumentStatus();
+                studentSGKResponseList.add(new StudentSGKResponse(s.getStudentID(), s.getEmail(), s.getName(), status));
+            }
         }
-        return studentList;
-        // return studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Approved", "TR");
+        return studentSGKResponseList;
     }
 
     public ResponseEntity<byte[]> downloadEligibleStudents() {
