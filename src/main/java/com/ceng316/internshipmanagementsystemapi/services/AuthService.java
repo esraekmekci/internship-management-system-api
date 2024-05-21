@@ -34,6 +34,7 @@ public class AuthService {
 //                            request.getPassword()
 //                    )
 //            );
+            boolean isRegistered = false;
             Student std = UBYSController.getStudent(Long.parseLong(request.getEmail()));
             if (!std.getPassword().equals(request.getPassword())){
                 return null;
@@ -44,6 +45,7 @@ public class AuthService {
             }
             else {
                 student = studentRepository.findById(std.getStudentID()).get();
+                isRegistered = true;
             }
             if (student != null){
                 Authentication auth = new UsernamePasswordAuthenticationToken(student, student.getPassword());
@@ -53,6 +55,7 @@ public class AuthService {
                         .name(student.getName())
                         .authorities(student.getRole())
                         .id(student.getStudentID().toString())
+                        .isRegistered(isRegistered)
                         .build();
             }
             return null;
@@ -133,7 +136,7 @@ public class AuthService {
                     .companyAddress(request.getCompAddress())
                     .foundationYear(request.getFoundationYear())
                     .employeeSize(request.getEmpSize())
-                    .internshipType(null)
+                    .internshipType(request.getInternshipType())
                     .accountStatus("PENDING")
                     .build();
             user = companyRepRepository.save(companyRep);

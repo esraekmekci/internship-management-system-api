@@ -14,4 +14,5 @@ public class AuthResponse {
     private String authorities;
     private String name;
     private String id;
+    private boolean isRegistered;
 }
