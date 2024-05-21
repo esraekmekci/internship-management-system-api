@@ -32,22 +32,26 @@ public class SecretaryController {
     }
 
     @GetMapping("/studentList/download")
-    public ResponseEntity<byte[]> downloadEligibleStudents() throws IOException {
-        List<Student> students = secretaryService.getEligibleStudentsList();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        Writer writer = new OutputStreamWriter(outputStream);
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID", "Email", "Name", "Grade"))) {
-            for (Student student : students) {
-                csvPrinter.printRecord(student.getStudentID(), student.getEmail(), student.getName(), student.getGrade());
-            }
-        }
+    public ResponseEntity<byte[]> downloadEligibleStudents() {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", "students.csv");
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
-        return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());
+        return secretaryService.downloadEligibleStudents();
     }
+//    public ResponseEntity<byte[]> downloadEligibleStudents() throws IOException {
+//        List<Student> students = secretaryService.getEligibleStudentsList();
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        Writer writer = new OutputStreamWriter(outputStream);
+//        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("ID", "Email", "Name", "Grade"))) {
+//            for (Student student : students) {
+//                csvPrinter.printRecord(student.getStudentID(), student.getEmail(), student.getName(), student.getGrade());
+//            }
+//        }
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentDispositionFormData("attachment", "students.csv");
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//
+//        return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());
+//    }
 
     @PostMapping("/{studentId}/uploadSGK")
     public String uploadSGK(@RequestParam MultipartFile file, @PathVariable Long studentId) throws Exception {
