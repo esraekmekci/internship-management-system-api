@@ -75,18 +75,18 @@ public class CoordinatorService {
 
 
     public boolean checkGuideline() {
-        return s3Service.checkFileExists("SummerPracticeGuidelines");
+        return s3Service.checkFileExists("SummerPracticeGuidelines.pdf");
     }
 
 
     public void downloadGuideline() {
-        s3Controller.downloadFile("SummerPracticeGuidelines");
+        s3Controller.downloadFile("SummerPracticeGuidelines.pdf");
     }
 
 
     public void uploadGuidelines(MultipartFile file) {
         try {
-            s3Controller.uploadFile(file, "SummerPracticeGuidelines");
+            s3Controller.uploadFile(file, "SummerPracticeGuidelines.pdf");
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -95,7 +95,7 @@ public class CoordinatorService {
 
     public void deleteGuidelines() {
         try {
-            s3Controller.deleteFile("SummerPracticeGuidelines");
+            s3Controller.deleteFile("SummerPracticeGuidelines.pdf");
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

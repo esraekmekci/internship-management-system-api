@@ -8,6 +8,7 @@ import com.ceng316.internshipmanagementsystemapi.services.CoordinatorService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 
 @RestController
@@ -44,8 +45,9 @@ public class CoordinatorController {
 
 
     @GetMapping("/checkGuideline")
-    public boolean checkGuideline() {
-        return coordinatorService.checkGuideline();
+    public ResponseEntity<?> checkGuideline() {
+        boolean exists = coordinatorService.checkGuideline(); // Assuming this calls your service method correctly
+        return ResponseEntity.ok(exists);
     }
 
     @GetMapping("/downloadGuideline")
