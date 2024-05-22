@@ -36,9 +36,13 @@ public class Application implements Serializable {
     "Application Letter Pending"
     "Application Letter Approved"
     "Application Letter Rejected"
+
     "Application Form Sent to Company"
     "Application Form Sent to Coordinator"
     "Application Form Approved"
     "Application Form Rejected"
+
+    "SGK Document Pending"
+    "SGK Document Uploaded"
      */
 }

@@ -108,18 +108,28 @@ public class CoordinatorService {
         List<Application> applications =  applicationRepository.findAll();
         List<ApplicationForCoordinatorResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
-            System.out.println(application.getApplicationStatus());
-            ApplicationForCoordinatorResponse applicationResponse = new ApplicationForCoordinatorResponse();
 
-            applicationResponse.setStudentName(application.getStudent().getName());
-            applicationResponse.setStudentId(application.getStudent().getStudentID());
-            applicationResponse.setApplicationStatus(application.getApplicationStatus());
-            applicationResponse.setApplicationId(application.getId());
-            applicationResponse.setCompanyName(application.getCompany().getCompanyName());
-            applicationResponse.setCompanyId(application.getCompany().getCompanyid());
+            if(application.getApplicationStatus().equals("Application Letter Approved") ||
+                    application.getApplicationStatus().equals("Application Form Sent to Company") ||
+                    application.getApplicationStatus().equals("Application Form Sent to Coordinator") ||
+                    application.getApplicationStatus().equals("Application Form Approved")||
+                    application.getApplicationStatus().equals("Application Form Rejected")||
+                    application.getApplicationStatus().equals("SGK Document Pending")||
+                    application.getApplicationStatus().equals("SGK Document Uploaded")
+            ) {
+                System.out.println(application.getApplicationStatus());
+                ApplicationForCoordinatorResponse applicationResponse = new ApplicationForCoordinatorResponse();
 
-            applicationResponses.add(applicationResponse);
-            System.out.println(applicationResponse.getStudentName());
+                applicationResponse.setStudentName(application.getStudent().getName());
+                applicationResponse.setStudentId(application.getStudent().getStudentID());
+                applicationResponse.setApplicationStatus(application.getApplicationStatus());
+                applicationResponse.setApplicationId(application.getId());
+                applicationResponse.setCompanyName(application.getCompany().getCompanyName());
+                applicationResponse.setCompanyId(application.getCompany().getCompanyid());
+
+                applicationResponses.add(applicationResponse);
+                System.out.println(applicationResponse.getStudentName());
+            }
         }
 
 
