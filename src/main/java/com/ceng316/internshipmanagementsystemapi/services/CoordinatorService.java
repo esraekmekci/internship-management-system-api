@@ -134,6 +134,7 @@ public class CoordinatorService {
             assert Objects.equals(application.getApplicationStatus(), "Application Form Sent to Coordinator");
 
             if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
+                application.setApplicationStatus("SGK Document Pending");
                 SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
                 sgkRepo.save(sgkFile);
             }
