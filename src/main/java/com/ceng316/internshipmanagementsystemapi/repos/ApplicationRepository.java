@@ -19,4 +19,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     @Query("SELECT a FROM Application a WHERE a.applicationStatus = :status")
     List<Application> findByApplicationStatus(String status);
+
+    @Query("SELECT a FROM Application a WHERE a.student.studentID = :studentId AND a.applicationStatus = :status")
+    Application findByStudentIdAndApplicationStatus(Long studentId, String status);
 }

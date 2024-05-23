@@ -14,7 +14,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "JOIN Application a ON s.studentID = a.student.studentID " +
             "JOIN CompanyRep cr ON a.company.companyid = cr.companyid " +
             "WHERE s.nationality = :nationality " +
-            "AND s.internshipStatus = :internshipStatus " +
+            "AND a.applicationStatus = :internshipStatus " +
             "AND cr.companyAddress LIKE %:companyAddress ")
     List<Student> findByNationalityAndInternshipStatusAndCompanyAddress(String nationality, String internshipStatus, String companyAddress);
 //    SGKCertificate findSGKCertificate(Long id);
