@@ -8,7 +8,9 @@ import java.util.List;
 
 import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
 import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
+import com.ceng316.internshipmanagementsystemapi.entities.Secretary;
 import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
+import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.http.HttpHeaders;
@@ -29,13 +31,21 @@ public class SecretaryService {
     StudentRepository studentRepo;
     SGKRepository sgkRepo;
     S3Controller s3Controller;
+    JwtTokenProvider jwtTokenProvider;
 
-    public SecretaryService(SecretaryRepository secretaryRepo, StudentRepository studentRepo, SGKRepository sgkRepo, S3Controller s3Controller) {
+    public SecretaryService(SecretaryRepository secretaryRepo, StudentRepository studentRepo, SGKRepository sgkRepo, S3Controller s3Controller, JwtTokenProvider jwtTokenProvider) {
         this.secretaryRepo = secretaryRepo;
         this.studentRepo = studentRepo;
         this.sgkRepo = sgkRepo;
         this.s3Controller = s3Controller;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
+
+    public Secretary getSecretaryByToken(String token) {
+        Long userId = jwtTokenProvider.getUserIdFromJwt(token);
+        return secretaryRepo.findById(userId).orElse(null);
+    }
+
     public List<Student> getEligibleStudentsList() {
         return studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Application Form Approved", "TR");
     }
