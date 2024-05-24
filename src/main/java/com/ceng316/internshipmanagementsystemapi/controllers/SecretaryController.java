@@ -2,6 +2,8 @@ package com.ceng316.internshipmanagementsystemapi.controllers;
 
 import java.util.List;
 
+import com.ceng316.internshipmanagementsystemapi.entities.Coordinator;
+import com.ceng316.internshipmanagementsystemapi.entities.Secretary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,5 +56,10 @@ public class SecretaryController {
         catch (Exception e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    @GetMapping("/token/{token}")
+    public Secretary getSecretaryByToken(@PathVariable String token){
+        return secretaryService.getSecretaryByToken(token);
     }
 }

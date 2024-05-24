@@ -9,8 +9,10 @@ import java.util.List;
 import com.ceng316.internshipmanagementsystemapi.controllers.S3Controller;
 import com.ceng316.internshipmanagementsystemapi.entities.Application;
 import com.ceng316.internshipmanagementsystemapi.entities.SGKFile;
+import com.ceng316.internshipmanagementsystemapi.entities.Secretary;
 import com.ceng316.internshipmanagementsystemapi.repos.ApplicationRepository;
 import com.ceng316.internshipmanagementsystemapi.repos.SGKRepository;
+import com.ceng316.internshipmanagementsystemapi.security.JwtTokenProvider;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.http.HttpHeaders;
@@ -31,15 +33,23 @@ public class SecretaryService {
     StudentRepository studentRepo;
     SGKRepository sgkRepo;
     S3Controller s3Controller;
+    JwtTokenProvider jwtTokenProvider;
     ApplicationRepository applicationRepo;
 
-    public SecretaryService(SecretaryRepository secretaryRepo, StudentRepository studentRepo, SGKRepository sgkRepo, S3Controller s3Controller, ApplicationRepository applicationRepo) {
+    public SecretaryService(SecretaryRepository secretaryRepo, StudentRepository studentRepo, SGKRepository sgkRepo, S3Controller s3Controller, JwtTokenProvider jwtTokenProvider, ApplicationRepository applicationRepo) {
         this.secretaryRepo = secretaryRepo;
         this.studentRepo = studentRepo;
         this.sgkRepo = sgkRepo;
         this.s3Controller = s3Controller;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.applicationRepo = applicationRepo;
     }
+
+    public Secretary getSecretaryByToken(String token) {
+        Long userId = jwtTokenProvider.getUserIdFromJwt(token);
+        return secretaryRepo.findById(userId).orElse(null);
+    }
+
     public List<Student> getEligibleStudentsList() {
         List<Student> sL1 = studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "Application Form Approved", "TR");
         List<Student> sL2 = studentRepo.findByNationalityAndInternshipStatusAndCompanyAddress("Turkish", "SGK Document Pending", "TR");
