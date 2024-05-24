@@ -88,13 +88,14 @@ public class SecretaryService {
         try {
             String fileName = "SGK_Report_" + studentId;
             s3Controller.uploadFile(file, fileName);
-            sgkRepo.updateSGKDocumentStatus(studentId, "SGK Document Uploaded");
+            sgkRepo.updateSGKDocumentStatus(studentId, "Available");
             Application application = applicationRepo.findByStudentIdAndApplicationStatus(studentId, "Application Form Approved");
             if (application == null) {
                 application = applicationRepo.findByStudentIdAndApplicationStatus(studentId, "SGK Document Pending");
             }
             if (application != null) {
                 application.setApplicationStatus("SGK Document Uploaded");
+                applicationRepo.save(application);
             }
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
@@ -105,10 +106,11 @@ public class SecretaryService {
         try {
             String fileName = "SGK_Report_" + studentId;
             s3Controller.deleteFile(fileName);
-            sgkRepo.updateSGKDocumentStatus(studentId, "SGK Document Pending");
+            sgkRepo.updateSGKDocumentStatus(studentId, "Unavailable");
             Application application = applicationRepo.findByStudentIdAndApplicationStatus(studentId, "SGK Document Uploaded");
             if (application != null) {
                 application.setApplicationStatus("SGK Document Pending");
+                applicationRepo.save(application);
             }
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
