@@ -109,7 +109,7 @@ public class CoordinatorService {
         List<ApplicationForCoordinatorResponse> applicationResponses = new ArrayList<>();
         for (Application application : applications) {
 
-            if(application.getApplicationStatus().equals("Application Letter Approved") ||
+            if(
                     application.getApplicationStatus().equals("Application Form Sent to Company") ||
                     application.getApplicationStatus().equals("Application Form Sent to Coordinator") ||
                     application.getApplicationStatus().equals("Application Form Approved")||
