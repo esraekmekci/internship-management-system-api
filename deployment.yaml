@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: internship-management-system
+  name: internship-management-system-api
 spec:
   selector:
     matchLabels:
-      app: internship-management-system
+      app: internship-management-system-api
   replicas: 1
   template:
     metadata:
       labels:
-        app: internship-management-system
+        app: internship-management-system-api
     spec:
       containers:
-        - name: internship-management-system
+        - name: ims-api
           image: esraekmekci/ims-api:latest
           imagePullPolicy: Always
           ports:
