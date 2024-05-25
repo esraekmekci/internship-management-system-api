@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: internship-management-system-api
+spec:
+  selector:
+    matchLabels:
+      app: internship-management-system-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: internship-management-system-api
+    spec:
+      containers:
+        - name: ims-api
+          image: esraekmekci/ims-api:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1Gi
+            limits:
+              cpu: 1
+              memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ims-service
+spec:
+  selector:
+    app: ims
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Route
+metadata:
+  name: ims-route
+spec:
+  host: ims.example.com
+  to:
+    kind: Service
+    name: ims-service
+  port:
+    targetPort: 8080
