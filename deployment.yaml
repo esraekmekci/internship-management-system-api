@@ -27,3 +27,28 @@ spec:
             limits:
               cpu: 1
               memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ims-service
+spec:
+  selector:
+    app: ims
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Route
+metadata:
+  name: ims-route
+spec:
+  host: ims.example.com
+  to:
+    kind: Service
+    name: ims-service
+  port:
+    targetPort: 8080
