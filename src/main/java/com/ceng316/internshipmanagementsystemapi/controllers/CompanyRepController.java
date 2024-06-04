@@ -47,6 +47,11 @@ public class CompanyRepController {
         return companyRepService.getCompanyRep(id);
     }
 
+    @DeleteMapping("/{email}")
+    public void deleteCompanyRep(@PathVariable String email) {
+        companyRepService.deleteCompanyRep(email);
+    }
+
     @GetMapping("/name/{name}")
     public CompanyRep getCompanyByName(@PathVariable String name) {
         return companyRepService.getCompanyByName(name);

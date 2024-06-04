@@ -62,6 +62,10 @@ public class CompanyRepService {
         return companyRepRepo.findById(id).orElse(null);
     }
 
+    public void deleteCompanyRep(String email) {
+        companyRepRepo.deleteByEmail(email);
+    }
+
     public CompanyRep getCompanyRepByToken(String token) {
         Long userId = jwtTokenProvider.getUserIdFromJwt(token);
         return companyRepRepo.findById(userId).orElse(null);

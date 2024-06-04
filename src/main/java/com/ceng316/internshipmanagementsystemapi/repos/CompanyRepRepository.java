@@ -13,4 +13,5 @@ public interface CompanyRepRepository extends JpaRepository<CompanyRep, Long> {
 
     CompanyRep findByCompanyName(String name);
 
+    void deleteByEmail(String email);
 }

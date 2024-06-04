@@ -38,6 +38,10 @@ public class StudentService {
         return studentRepo.findById(id).orElse(null);
     }
 
+    public void deleteStudent(Long id) {
+        studentRepo.deleteById(id);
+    }
+
     public Student getStudentByToken(String token) {
         Long userId = jwtTokenProvider.getUserIdFromJwt(token);
         return studentRepo.findById(userId).orElse(null);

@@ -29,6 +29,11 @@ public class StudentController {
         return studentService.getStudent(studentId);
     }
 
+    @DeleteMapping("/{studentId}")
+    public void deleteStudent(@PathVariable Long studentId) {
+        studentService.deleteStudent(studentId);
+    }
+
     @GetMapping("/token/{token}")
     public User getStudentByToken(@PathVariable String token){
         return studentService.getStudentByToken(token);
