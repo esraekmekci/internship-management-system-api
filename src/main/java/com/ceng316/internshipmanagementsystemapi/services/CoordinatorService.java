@@ -143,13 +143,14 @@ public class CoordinatorService {
             assert application != null;
             assert Objects.equals(application.getApplicationStatus(), "Application Form Sent to Coordinator");
 
+            application.setApplicationStatus("Application Form Approved");
+
             if (application.getStudent().getNationality().equals("Turkish") && application.getCompany().getCompanyAddress().endsWith("TR")) {
                 application.setApplicationStatus("SGK Document Pending");
                 SGKFile sgkFile = new SGKFile(application.getStudent().getStudentID(), "Unavailable");
                 sgkRepo.save(sgkFile);
             }
 
-            application.setApplicationStatus("Application Form Approved");
             applicationRepository.save(application);
         }
         catch (Exception e) {
